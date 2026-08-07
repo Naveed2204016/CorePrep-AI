@@ -1,0 +1,43 @@
+# =========================
+# Frontend
+# =========================
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+
+# =========================
+# Backend / Python
+# =========================
+backend/.venv/
+backend/__pycache__/
+backend/**/__pycache__/
+*.py[cod]
+
+# Environment files
+.env
+backend/.env
+
+# =========================
+# RAG / AI data
+# =========================
+backend/chroma_db/
+backend/vector_store/
+
+backend/data/raw/*
+backend/data/processed/*
+
+!backend/data/raw/.gitkeep
+!backend/data/processed/.gitkeep
+
+# =========================
+# IDE / OS
+# =========================
+.vscode/
+.DS_Store
+Thumbs.db
+
+# =========================
+# Logs
+# =========================
+*.log
