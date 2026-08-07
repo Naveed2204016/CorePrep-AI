@@ -6,12 +6,14 @@ interface FeatureCardProps {
   icon: LucideIcon;
   title: string;
   description: string;
+  to?: string;
 }
 
 const FeatureCard = ({
   icon: Icon,
   title,
   description,
+  to = "/signin",
 }: FeatureCardProps) => {
   return (
     <div className="feature-card">
@@ -23,7 +25,7 @@ const FeatureCard = ({
 
       <p>{description}</p>
 
-      <Link to="/signin" className="feature-link">
+      <Link to={to} className="feature-link">
         Explore
         <ArrowRight size={16} />
       </Link>

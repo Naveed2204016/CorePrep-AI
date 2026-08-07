@@ -182,10 +182,11 @@ const LandingPage = () => {
                 viewport={{ once: true }}
                 transition={{ delay: 0.12 }}
               >
-                <FeatureCard
-                  icon={BriefcaseBusiness}
-                  title="Company Specific Exam"
-                  description="Practice company-specific and subject-focused interview questions through structured mock examinations."
+               <FeatureCard
+                icon={BriefcaseBusiness}
+                title="Company Specific Exam"
+                description="Practice company-specific and subject-focused interview questions through structured mock examinations."
+                to="/company-prep"
                 />
               </motion.div>
 

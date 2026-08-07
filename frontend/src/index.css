@@ -1209,3 +1209,712 @@ button {
     text-align: center;
   }
 }
+
+/* =====================================================
+   COMPANY PREPARATION
+===================================================== */
+
+.company-prep-page,
+.exam-setup-page {
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at 85% 5%,
+      rgba(124, 58, 237, 0.1),
+      transparent 28%
+    ),
+    var(--bg);
+}
+
+.company-prep-hero {
+  position: relative;
+  overflow: hidden;
+
+  padding: 70px 0 45px;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.company-page-glow {
+  position: absolute;
+
+  border-radius: 50%;
+  filter: blur(100px);
+
+  pointer-events: none;
+}
+
+.company-glow-one {
+  width: 390px;
+  height: 390px;
+
+  right: -100px;
+  top: -180px;
+
+  background: rgba(124, 58, 237, 0.14);
+}
+
+.company-glow-two {
+  width: 300px;
+  height: 300px;
+
+  left: -120px;
+  bottom: -170px;
+
+  background: rgba(79, 124, 255, 0.08);
+}
+
+.company-back-link {
+  width: fit-content;
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  margin-bottom: 40px;
+
+  color: var(--muted);
+
+  font-size: 13px;
+
+  transition: 0.2s;
+}
+
+.company-back-link:hover {
+  color: white;
+}
+
+.company-page-heading {
+  max-width: 760px;
+}
+
+.company-page-heading h1 {
+  margin-top: 18px;
+
+  font-size: clamp(39px, 5vw, 62px);
+
+  line-height: 1.05;
+  letter-spacing: -0.05em;
+}
+
+.company-page-heading h1 span {
+  color: transparent;
+
+  background: linear-gradient(
+    100deg,
+    #c084fc,
+    #7186ff
+  );
+
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.company-page-heading > p {
+  max-width: 620px;
+
+  margin-top: 18px;
+
+  color: var(--muted);
+
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.company-search {
+  max-width: 700px;
+
+  height: 58px;
+
+  margin-top: 38px;
+  padding: 0 17px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  border: 1px solid var(--border);
+  border-radius: 12px;
+
+  background: rgba(10, 15, 25, 0.9);
+
+  transition: 0.2s;
+}
+
+.company-search:focus-within {
+  border-color: rgba(139, 92, 246, 0.55);
+
+  box-shadow:
+    0 0 0 3px rgba(139, 92, 246, 0.07);
+}
+
+.company-search svg {
+  flex-shrink: 0;
+
+  color: #64748b;
+}
+
+.company-search input {
+  flex: 1;
+
+  min-width: 0;
+
+  border: none;
+  outline: none;
+
+  color: white;
+  background: transparent;
+
+  font-size: 14px;
+}
+
+.company-search input::placeholder {
+  color: #64748b;
+}
+
+.company-search > span {
+  flex-shrink: 0;
+
+  color: #64748b;
+
+  font-size: 11px;
+}
+
+.company-list-section {
+  padding: 55px 0 90px;
+}
+
+.company-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 16px;
+}
+
+.company-card {
+  height: 100%;
+  min-height: 210px;
+
+  padding: 22px;
+
+  display: flex;
+  flex-direction: column;
+
+  border: 1px solid var(--border);
+  border-radius: 15px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(139, 92, 246, 0.04),
+      transparent 45%
+    ),
+    var(--card);
+
+  transition:
+    transform 0.22s,
+    border-color 0.22s,
+    box-shadow 0.22s;
+}
+
+.company-card:hover {
+  transform: translateY(-4px);
+
+  border-color: rgba(139, 92, 246, 0.38);
+
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.22);
+}
+
+.company-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.company-avatar,
+.selected-company-avatar {
+  display: grid;
+  place-items: center;
+
+  color: #ddd6fe;
+
+  font-weight: 800;
+
+  border: 1px solid rgba(139, 92, 246, 0.24);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(139, 92, 246, 0.16),
+      rgba(79, 124, 255, 0.07)
+    );
+}
+
+.company-avatar {
+  width: 43px;
+  height: 43px;
+
+  border-radius: 11px;
+
+  font-size: 12px;
+}
+
+.company-card-arrow {
+  color: #475569;
+
+  transition:
+    color 0.2s,
+    transform 0.2s;
+}
+
+.company-card:hover .company-card-arrow {
+  color: #a78bfa;
+
+  transform: translateX(3px);
+}
+
+.company-card-content {
+  flex: 1;
+
+  margin-top: 22px;
+}
+
+.company-card h3 {
+  font-size: 17px;
+
+  letter-spacing: -0.02em;
+}
+
+.company-card-content p {
+  margin-top: 9px;
+
+  color: var(--muted);
+
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.company-card-footer {
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  margin-top: 22px;
+  padding-top: 15px;
+
+  color: #8b9bb0;
+
+  border-top: 1px solid var(--border);
+
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.company-empty-state {
+  min-height: 300px;
+
+  display: grid;
+  place-items: center;
+
+  align-content: center;
+
+  text-align: center;
+
+  color: var(--muted);
+
+  border: 1px dashed var(--border);
+  border-radius: 16px;
+}
+
+.company-empty-state h3 {
+  margin-top: 13px;
+
+  color: white;
+}
+
+.company-empty-state p {
+  margin-top: 7px;
+
+  font-size: 13px;
+}
+
+.company-source-note {
+  margin-top: 35px;
+
+  color: #475569;
+
+  text-align: center;
+
+  font-size: 10px;
+}
+
+
+/* =====================================================
+   COMPANY EXAM SETUP
+===================================================== */
+
+.exam-setup-page {
+  position: relative;
+
+  overflow: hidden;
+}
+
+.exam-setup-container {
+  position: relative;
+  z-index: 2;
+
+  padding-top: 65px;
+  padding-bottom: 100px;
+}
+
+.company-back-button {
+  padding: 0;
+
+  border: none;
+  background: transparent;
+
+  cursor: pointer;
+}
+
+.exam-company-header {
+  max-width: 780px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 24px;
+
+  margin-top: 15px;
+}
+
+.selected-company-avatar {
+  width: 76px;
+  height: 76px;
+
+  flex-shrink: 0;
+
+  border-radius: 18px;
+
+  font-size: 19px;
+}
+
+.exam-company-label {
+  color: #a78bfa;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 0.13em;
+}
+
+.exam-company-header h1 {
+  margin-top: 6px;
+
+  font-size: clamp(34px, 5vw, 50px);
+
+  letter-spacing: -0.045em;
+}
+
+.exam-company-header p {
+  max-width: 580px;
+
+  margin-top: 9px;
+
+  color: var(--muted);
+
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.exam-option-grid {
+  margin-top: 55px;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 17px;
+}
+
+.exam-option-card {
+  position: relative;
+
+  min-height: 395px;
+
+  padding: 27px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  color: white;
+
+  text-align: left;
+
+  border: 1px solid var(--border);
+  border-radius: 17px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(139, 92, 246, 0.045),
+      transparent 40%
+    ),
+    var(--card);
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.exam-option-card:hover {
+  border-color: rgba(139, 92, 246, 0.42);
+
+  box-shadow:
+    0 22px 55px rgba(0, 0, 0, 0.26);
+}
+
+.featured-exam-option {
+  border-color: rgba(139, 92, 246, 0.34);
+
+  background:
+    radial-gradient(
+      circle at 75% 10%,
+      rgba(124, 58, 237, 0.12),
+      transparent 30%
+    ),
+    var(--card);
+}
+
+.recommended-label {
+  position: absolute;
+
+  right: 18px;
+  top: 18px;
+
+  padding: 6px 9px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  color: #c4b5fd;
+
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-radius: 999px;
+
+  background: rgba(139, 92, 246, 0.1);
+
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.exam-option-icon {
+  width: 48px;
+  height: 48px;
+
+  margin-bottom: 27px;
+
+  display: grid;
+  place-items: center;
+
+  color: #c4b5fd;
+
+  border-radius: 12px;
+
+  background: rgba(139, 92, 246, 0.11);
+}
+
+.exam-option-tag {
+  color: #64748b;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing: 0.12em;
+}
+
+.exam-option-card h2 {
+  margin-top: 8px;
+
+  font-size: 25px;
+
+  letter-spacing: -0.03em;
+}
+
+.exam-option-card > p {
+  margin-top: 12px;
+
+  color: var(--muted);
+
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.exam-meta {
+  width: 100%;
+
+  margin-top: 25px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 9px;
+
+  color: #78879a;
+
+  font-size: 10px;
+}
+
+.exam-meta span {
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+}
+
+.exam-option-action {
+  width: 100%;
+
+  margin-top: auto;
+  padding-top: 20px;
+
+  color: #c4b5fd;
+
+  border-top: 1px solid var(--border);
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.exam-info-box {
+  max-width: 760px;
+
+  margin: 35px auto 0;
+  padding: 15px 18px;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 11px;
+
+  color: #7f8ea3;
+
+  border: 1px solid rgba(79, 124, 255, 0.12);
+  border-radius: 11px;
+
+  background: rgba(79, 124, 255, 0.035);
+
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.exam-info-box svg {
+  flex-shrink: 0;
+
+  color: #818cf8;
+}
+
+.company-not-found {
+  min-height: 80vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  gap: 25px;
+}
+
+
+/* =====================================================
+   COMPANY PREP RESPONSIVE
+===================================================== */
+
+@media (max-width: 950px) {
+  .company-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .exam-option-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .exam-option-card {
+    min-height: 320px;
+  }
+}
+
+@media (max-width: 620px) {
+  .company-prep-hero {
+    padding: 45px 0 35px;
+  }
+
+  .company-back-link {
+    margin-bottom: 30px;
+  }
+
+  .company-page-heading h1 {
+    font-size: 38px;
+  }
+
+  .company-search {
+    height: auto;
+
+    min-height: 55px;
+  }
+
+  .company-search > span {
+    display: none;
+  }
+
+  .company-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .company-card {
+    min-height: 190px;
+  }
+
+  .company-list-section {
+    padding-top: 35px;
+  }
+
+  .exam-setup-container {
+    padding-top: 45px;
+  }
+
+  .exam-company-header {
+    align-items: flex-start;
+
+    gap: 17px;
+  }
+
+  .selected-company-avatar {
+    width: 58px;
+    height: 58px;
+
+    border-radius: 14px;
+
+    font-size: 14px;
+  }
+
+  .exam-company-header h1 {
+    font-size: 31px;
+  }
+
+  .exam-option-grid {
+    margin-top: 38px;
+  }
+
+  .exam-option-card {
+    min-height: 345px;
+  }
+}
