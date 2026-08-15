@@ -200,6 +200,7 @@ const LandingPage = () => {
                   icon={FileSearch}
                   title="Review CV"
                   description="Upload your CV and receive AI-assisted feedback before applying for software engineering positions."
+                  to="/cv-review"
                 />
               </motion.div>
             </div>

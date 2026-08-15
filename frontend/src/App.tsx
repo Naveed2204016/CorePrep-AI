@@ -9,6 +9,7 @@ import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 import CompanyPrepPage from "./pages/CompanyPrepPage";
 import CompanyExamSetupPage from "./pages/CompanyExamSetupPage";
+import CVReviewPage from "./pages/CVReviewPage";
 
 function App() {
   return (
@@ -30,6 +31,10 @@ function App() {
         <Route
           path="/company-prep/:companySlug"
           element={<CompanyExamSetupPage />}
+        />
+        <Route
+          path="/cv-review"
+          element={<CVReviewPage />}
         />
       </Routes>
     </BrowserRouter>
