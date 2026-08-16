@@ -4417,3 +4417,130 @@ button {
     grid-template-columns: 1fr;
   }
 }
+
+/* The following css is for adjusting font size */
+
+/* =====================================================
+   DESKTOP READABILITY
+===================================================== */
+
+@media (min-width: 901px) {
+
+  /* Roadmap text */
+  .generated-topic-content > p {
+    font-size: 14px;
+  }
+
+  .generated-topic-heading > div:first-child > span {
+    font-size: 11px;
+  }
+
+  .resource-title {
+    font-size: 11px;
+  }
+
+  .topic-resource-list strong {
+    font-size: 12px;
+  }
+
+  .topic-resource-list span {
+    font-size: 10px;
+  }
+
+  .assessment-locked {
+    font-size: 11px;
+  }
+
+  /* Roadmap creation */
+  .roadmap-mode-card p,
+  .roadmap-builder-heading p {
+    font-size: 13px;
+  }
+
+  .roadmap-topic-option {
+    font-size: 13px;
+  }
+
+  .roadmap-week span {
+    font-size: 11px;
+  }
+
+  /* Assessment setup */
+  .assessment-config-card p {
+    font-size: 13px;
+  }
+
+  .assessment-summary-card p {
+    font-size: 12px;
+  }
+
+  /* Exam */
+  .exam-info-banner {
+    font-size: 12px;
+  }
+
+  .exam-question-number {
+    font-size: 11px;
+  }
+
+  .exam-question-card h2 {
+    font-size: 18px;
+  }
+
+  .exam-option span {
+    font-size: 13px;
+  }
+
+  .exam-short-answer {
+    font-size: 13px;
+  }
+
+  .exam-submit-area span {
+    font-size: 13px;
+  }
+
+  .exam-submit-area p {
+    font-size: 11px;
+  }
+
+  /* Result page */
+  .result-hero p {
+    font-size: 14px;
+  }
+
+  .result-message strong {
+    font-size: 14px;
+  }
+
+  .result-message p {
+    font-size: 12px;
+  }
+
+  .revision-pills span {
+    font-size: 12px;
+  }
+
+  .answer-review-top {
+    font-size: 11px;
+  }
+
+  .answer-review-card h3 {
+    font-size: 16px;
+  }
+
+  .answer-detail span {
+    font-size: 10px;
+  }
+
+  .answer-detail p {
+    font-size: 12px;
+  }
+
+  .answer-explanation strong {
+    font-size: 11px;
+  }
+
+  .answer-explanation p {
+    font-size: 12px;
+  }
+}
