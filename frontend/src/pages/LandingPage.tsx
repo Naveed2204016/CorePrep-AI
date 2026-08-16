@@ -173,6 +173,7 @@ const LandingPage = () => {
                   icon={Map}
                   title="Create Roadmap"
                   description="Create a personalized preparation roadmap based on your subjects, skill level, available time and target role."
+                  to="/roadmap/create"
                 />
               </motion.div>
 
