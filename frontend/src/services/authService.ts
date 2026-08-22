@@ -14,19 +14,42 @@ const USE_MOCK_AUTH =
 const delay = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
+const saveCurrentUser = (user: AuthResponse["user"]) => {
+  localStorage.setItem("coreprep_user", JSON.stringify(user));
+  window.dispatchEvent(new Event("coreprep-auth-change"));
+};
+
+const saveRegisteredUser = (user: AuthResponse["user"]) => {
+  localStorage.setItem("coreprep_registered_user", JSON.stringify(user));
+};
+
+const savePassword = (password: string) => {
+  localStorage.setItem("coreprep_password", password);
+};
+
 export const authService = {
   async login(data: LoginData): Promise<AuthResponse> {
     if (USE_MOCK_AUTH) {
       await delay(700);
 
-      return {
+      const response = {
         message: "Mock login successful",
         user: {
           id: 1,
-          name: "CorePrep User",
+          name:
+            JSON.parse(
+              localStorage.getItem("coreprep_registered_user") || "null"
+            )?.email === data.email
+              ? JSON.parse(
+                  localStorage.getItem("coreprep_registered_user") || "null"
+                )?.name
+              : "CorePrep User",
           email: data.email,
         },
       };
+
+      saveCurrentUser(response.user);
+      return response;
     }
 
     const response = await fetch(`${API_BASE_URL}/auth/login`, {
@@ -43,14 +66,16 @@ export const authService = {
       throw new Error(error.detail || "Login failed");
     }
 
-    return response.json();
+    const result = await response.json();
+    saveCurrentUser(result.user);
+    return result;
   },
 
   async register(data: RegisterData): Promise<AuthResponse> {
     if (USE_MOCK_AUTH) {
       await delay(700);
 
-      return {
+      const response = {
         message: "Mock registration successful",
         user: {
           id: 1,
@@ -58,6 +83,11 @@ export const authService = {
           email: data.email,
         },
       };
+
+      saveRegisteredUser(response.user);
+      savePassword(data.password);
+      saveCurrentUser(response.user);
+      return response;
     }
 
     const response = await fetch(`${API_BASE_URL}/auth/register`, {
@@ -74,7 +104,9 @@ export const authService = {
       throw new Error(error.detail || "Registration failed");
     }
 
-    return response.json();
+    const result = await response.json();
+    saveCurrentUser(result.user);
+    return result;
   },
 
   async continueWithGoogle(): Promise<void> {
@@ -87,5 +119,20 @@ export const authService = {
     }
 
     window.location.href = `${API_BASE_URL}/auth/google`;
+  },
+
+  getCurrentUser(): AuthResponse["user"] | null {
+    const stored = localStorage.getItem("coreprep_user");
+
+    return stored ? JSON.parse(stored) : null;
+  },
+
+  signOut() {
+    localStorage.removeItem("coreprep_user");
+    window.dispatchEvent(new Event("coreprep-auth-change"));
+  },
+
+  updatePassword(password: string) {
+    savePassword(password);
   },
 };

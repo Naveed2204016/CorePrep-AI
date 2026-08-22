@@ -15,6 +15,7 @@ import RoadmapPreviewPage from "./pages/RoadmapPreviewPage";
 import AssessmentSetupPage from "./pages/AssessmentSetupPage";
 import AssessmentExamPage from "./pages/AssessmentExamPage";
 import AssessmentResultPage from "./pages/AssessmentResultPage";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   return (
@@ -49,6 +50,11 @@ function App() {
         <Route
         path="/roadmap/current"
         element={<RoadmapPreviewPage />}
+        />
+
+        <Route
+        path="/profile"
+        element={<ProfilePage />}
         />
 
        <Route
