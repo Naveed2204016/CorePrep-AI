@@ -1,13 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   BrainCircuit,
   Menu,
   X,
 } from "lucide-react";
+import { authService } from "../../services/authService";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const [signedIn, setSignedIn] = useState(() => Boolean(authService.getCurrentUser()));
+
+  useEffect(() => {
+    const updateAuth = () => setSignedIn(Boolean(authService.getCurrentUser()));
+    window.addEventListener("coreprep-auth-change", updateAuth);
+    return () => window.removeEventListener("coreprep-auth-change", updateAuth);
+  }, []);
 
   return (
     <header className="navbar">
@@ -29,13 +37,14 @@ const Navbar = () => {
         </nav>
 
         <div className="desktop-auth">
-          <Link to="/signin" className="signin-link">
-            Sign In
-          </Link>
-
-          <Link to="/signup" className="primary-button">
-            Get Started
-          </Link>
+          {signedIn ? (
+            <Link to="/profile" className="signin-link">My Profile</Link>
+          ) : (
+            <>
+              <Link to="/signin" className="signin-link">Sign In</Link>
+              <Link to="/signup" className="primary-button">Get Started</Link>
+            </>
+          )}
         </div>
 
         <button
@@ -64,17 +73,14 @@ const Navbar = () => {
             Subjects
           </a>
 
-          <Link to="/signin" onClick={() => setOpen(false)}>
-            Sign In
-          </Link>
-
-          <Link
-            to="/signup"
-            className="primary-button"
-            onClick={() => setOpen(false)}
-          >
-            Get Started
-          </Link>
+          {signedIn ? (
+            <Link to="/profile" onClick={() => setOpen(false)}>My Profile</Link>
+          ) : (
+            <>
+              <Link to="/signin" onClick={() => setOpen(false)}>Sign In</Link>
+              <Link to="/signup" className="primary-button" onClick={() => setOpen(false)}>Get Started</Link>
+            </>
+          )}
         </div>
       )}
     </header>

@@ -301,8 +301,10 @@ export const roadmapService = {
         ? createTopicRoadmap(source, input.weeks)
         : createJobRoadmap(input.weeks);
 
+    const roadmapId = `roadmap-${Date.now()}`;
+
     const roadmap: GeneratedRoadmap = {
-      id: "roadmap-demo-1",
+      id: roadmapId,
       title:
         input.mode === "topic"
           ? `${source} Interview Preparation`
@@ -310,13 +312,24 @@ export const roadmapService = {
       mode: input.mode,
       weeks: input.weeks,
       sourceLabel: source,
-      topics,
+      topics: topics.map((topic) => ({
+        ...topic,
+        id: `${roadmapId}-${topic.id}`,
+      })),
       confirmed: false,
     };
 
     sessionStorage.setItem(
       "coreprep_roadmap",
       JSON.stringify(roadmap)
+    );
+
+    const roadmaps = this.getRoadmaps().filter(
+      (item) => item.id !== roadmap.id
+    );
+    localStorage.setItem(
+      "coreprep_roadmaps",
+      JSON.stringify([roadmap, ...roadmaps])
     );
 
     return roadmap;
@@ -328,11 +341,41 @@ export const roadmapService = {
     return stored ? JSON.parse(stored) : null;
   },
 
+  getRoadmaps(): GeneratedRoadmap[] {
+    const stored = localStorage.getItem("coreprep_roadmaps");
+    const roadmaps: GeneratedRoadmap[] = stored
+      ? JSON.parse(stored)
+      : [];
+    const current = this.getRoadmap();
+
+    if (current && !roadmaps.some((item) => item.id === current.id)) {
+      return [current, ...roadmaps];
+    }
+
+    return roadmaps;
+  },
+
+  selectRoadmap(roadmap: GeneratedRoadmap) {
+    sessionStorage.setItem(
+      "coreprep_roadmap",
+      JSON.stringify(roadmap)
+    );
+  },
+
   saveRoadmap(roadmap: GeneratedRoadmap) {
     sessionStorage.setItem(
       "coreprep_roadmap",
       JSON.stringify(roadmap)
     );
+
+    const roadmaps = this.getRoadmaps().map((item) =>
+      item.id === roadmap.id ? roadmap : item
+    );
+    localStorage.setItem(
+      "coreprep_roadmaps",
+      JSON.stringify(roadmaps)
+    );
+
   },
 
   saveAssessmentConfig(config: AssessmentConfig) {
