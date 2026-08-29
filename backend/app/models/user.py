@@ -25,3 +25,13 @@ class User(Base):
     password = Column(
         String(255)
     )
+
+    google_id = Column(
+    String(255),
+    unique=True,
+    nullable=True
+   )
+    auth_provider = Column(
+    String(50),
+    default="email"
+   )

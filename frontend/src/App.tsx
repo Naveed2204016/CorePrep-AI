@@ -16,6 +16,8 @@ import AssessmentSetupPage from "./pages/AssessmentSetupPage";
 import AssessmentExamPage from "./pages/AssessmentExamPage";
 import AssessmentResultPage from "./pages/AssessmentResultPage";
 import ProfilePage from "./pages/ProfilePage";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
+import OAuthSuccessPage from "./pages/OAuthSuccessPage";
 
 function App() {
   return (
@@ -30,46 +32,87 @@ function App() {
           path="/signup"
           element={<SignUpPage />}
         />
+        
+        <Route
+          path="/oauth-success"
+          element={<OAuthSuccessPage />}
+        />
         <Route
           path="/company-prep"
-          element={<CompanyPrepPage />}
+          element={
+            <ProtectedRoute>
+              <CompanyPrepPage />
+            </ProtectedRoute>
+          }
         />
         <Route
           path="/company-prep/:companySlug"
-          element={<CompanyExamSetupPage />}
+          element={
+            <ProtectedRoute>
+              <CompanyExamSetupPage />
+            </ProtectedRoute>
+          }
         />
         <Route
           path="/cv-review"
-          element={<CVReviewPage />}
+          element={
+            <ProtectedRoute>
+              <CVReviewPage />
+            </ProtectedRoute>
+          }
         />
         <Route
         path="/roadmap/create"
-        element={<RoadmapCreatePage />}
+        element={
+          <ProtectedRoute>
+            <RoadmapCreatePage />
+          </ProtectedRoute>
+        }
         />
 
         <Route
         path="/roadmap/current"
-        element={<RoadmapPreviewPage />}
+        element={
+          <ProtectedRoute>
+            <RoadmapPreviewPage />
+          </ProtectedRoute>
+        }
         />
 
         <Route
         path="/profile"
-        element={<ProfilePage />}
+        element={
+          <ProtectedRoute>
+            <ProfilePage />
+          </ProtectedRoute>
+        }
         />
 
        <Route
        path="/roadmap/assessment/:topicId/setup"
-       element={<AssessmentSetupPage />}
+       element={
+         <ProtectedRoute>
+           <AssessmentSetupPage />
+         </ProtectedRoute>
+       }
        />
 
       <Route
       path="/roadmap/assessment/:topicId/exam"
-      element={<AssessmentExamPage />}
+      element={
+        <ProtectedRoute>
+          <AssessmentExamPage />
+        </ProtectedRoute>
+      }
       />
 
       <Route
       path="/roadmap/assessment/:topicId/result"
-      element={<AssessmentResultPage />}
+      element={
+        <ProtectedRoute>
+          <AssessmentResultPage />
+        </ProtectedRoute>
+      }
       />
       </Routes>
     </BrowserRouter>

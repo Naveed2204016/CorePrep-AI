@@ -1,18 +1,11 @@
-import type {
-  AuthResponse,
-  LoginData,
-  RegisterData,
-} from "../types/auth";
+import type { AuthResponse, LoginData, RegisterData } from "../types/auth";
 
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ||
-  "http://localhost:8000/api/v1";
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api/v1";
 
-const USE_MOCK_AUTH =
-  import.meta.env.VITE_USE_MOCK_AUTH !== "false";
+const USE_MOCK_AUTH = import.meta.env.VITE_USE_MOCK_AUTH !== "false";
 
-const delay = (ms: number) =>
-  new Promise((resolve) => setTimeout(resolve, ms));
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const saveCurrentUser = (user: AuthResponse["user"]) => {
   localStorage.setItem("coreprep_user", JSON.stringify(user));
@@ -38,10 +31,10 @@ export const authService = {
           id: 1,
           name:
             JSON.parse(
-              localStorage.getItem("coreprep_registered_user") || "null"
+              localStorage.getItem("coreprep_registered_user") || "null",
             )?.email === data.email
               ? JSON.parse(
-                  localStorage.getItem("coreprep_registered_user") || "null"
+                  localStorage.getItem("coreprep_registered_user") || "null",
                 )?.name
               : "CorePrep User",
           email: data.email,
@@ -67,8 +60,21 @@ export const authService = {
     }
 
     const result = await response.json();
-    saveCurrentUser(result.user);
-    return result;
+
+    // Store the JWT token
+    if (result.access_token) {
+      localStorage.setItem("coreprep_token", result.access_token);
+    }
+
+    // Store the user data
+    if (result.user) {
+      saveCurrentUser(result.user);
+    }
+
+    return {
+      message: "Login successful",
+      user: result.user,
+    };
   },
 
   async register(data: RegisterData): Promise<AuthResponse> {
@@ -90,7 +96,7 @@ export const authService = {
       return response;
     }
 
-    const response = await fetch(`${API_BASE_URL}/auth/register`, {
+    const response = await fetch(`${API_BASE_URL}/auth/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -105,14 +111,23 @@ export const authService = {
     }
 
     const result = await response.json();
-    saveCurrentUser(result.user);
-    return result;
+
+    // Store the user data (signup doesn't return token, but we save user info)
+    if (result.user) {
+      saveRegisteredUser(result.user);
+      // Don't auto-login after signup, user needs to sign in
+    }
+
+    return {
+      message: "Registration successful",
+      user: result.user,
+    };
   },
 
   async continueWithGoogle(): Promise<void> {
     if (USE_MOCK_AUTH) {
       alert(
-        "Google authentication UI is ready. FastAPI Google OAuth will be connected later."
+        "Google authentication UI is ready. FastAPI Google OAuth will be connected later.",
       );
 
       return;
@@ -129,6 +144,9 @@ export const authService = {
 
   signOut() {
     localStorage.removeItem("coreprep_user");
+    localStorage.removeItem("coreprep_token");
+    localStorage.removeItem("coreprep_registered_user");
+    localStorage.removeItem("coreprep_password");
     window.dispatchEvent(new Event("coreprep-auth-change"));
   },
 

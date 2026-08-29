@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from app.db.database import Base, engine
 from app.api.v1.auth import router as auth_router
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.sessions import SessionMiddleware
 
 
 Base.metadata.create_all(
@@ -12,6 +13,11 @@ Base.metadata.create_all(
 
 app = FastAPI(
     title="CorePrep AI Backend"
+)
+
+app.add_middleware(
+    SessionMiddleware,
+    secret_key="coreprep_secret_key"
 )
 
 app.add_middleware(

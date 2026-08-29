@@ -1,14 +1,18 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from urllib.parse import urlencode
 
 from app.db.database import get_db
 from app.models.user import User
 from app.schemas.auth import SignupRequest, LoginRequest
 from app.core.security import *
+from fastapi import Request
+from fastapi.responses import RedirectResponse
+from app.core.google_auth import oauth
 
 
 router = APIRouter(
-    prefix="/auth",
+    prefix="/api/v1/auth",
     tags=["Authentication"]
 )
 
@@ -42,10 +46,16 @@ def signup(
 
     db.add(new_user)
     db.commit()
+    db.refresh(new_user)
 
 
     return {
-        "message":"Signup successful"
+        "message":"Signup successful",
+        "user": {
+            "id": new_user.id,
+            "name": new_user.name,
+            "email": new_user.email
+        }
     }
 
 
@@ -86,5 +96,79 @@ def login(
 
 
     return {
-        "access_token":token
+        "access_token":token,
+        "user": {
+            "id": db_user.id,
+            "name": db_user.name,
+            "email": db_user.email
+        }
     }
+
+@router.get("/google")
+async def google_login(
+    request:Request
+):
+
+    redirect_uri = (
+        "http://localhost:8000/api/v1/auth/google/callback"
+    )
+
+    return await oauth.google.authorize_redirect(
+        request,
+        redirect_uri
+    )
+
+@router.get("/google/callback")
+async def google_callback(
+    request:Request,
+    db:Session=Depends(get_db)
+):
+
+    token = await oauth.google.authorize_access_token(
+        request
+    )
+
+    user_info = token["userinfo"]
+
+
+    email=user_info["email"]
+    name=user_info["name"]
+    google_id=user_info["sub"]
+
+
+    user=db.query(User).filter(
+        User.email==email
+    ).first()
+
+
+    if not user:
+
+        user=User(
+            name=name,
+            email=email,
+            google_id=google_id,
+            auth_provider="google"
+        )
+
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+
+
+    jwt_token=create_token(
+        {
+            "user_id":user.id
+        }
+    )
+
+    # Properly URL-encode the query parameters
+    query_params = urlencode({
+        "token": jwt_token,
+        "id": user.id,
+        "name": user.name,
+        "email": user.email
+    })
+
+    return RedirectResponse(
+        url=f"http://localhost:5173/oauth-success?{query_params}"
+    )
