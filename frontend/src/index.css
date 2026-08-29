@@ -102,11 +102,7 @@ button {
 
   border-radius: 10px;
 
-  background: linear-gradient(
-    135deg,
-    var(--purple),
-    var(--blue)
-  );
+  background: linear-gradient(135deg, var(--purple), var(--blue));
 }
 
 .desktop-nav {
@@ -171,14 +167,9 @@ button {
 
   color: white;
 
-  background: linear-gradient(
-    135deg,
-    #7c3aed,
-    #4f67ff
-  );
+  background: linear-gradient(135deg, #7c3aed, #4f67ff);
 
-  box-shadow:
-    0 12px 35px rgba(124, 58, 237, 0.23);
+  box-shadow: 0 12px 35px rgba(124, 58, 237, 0.23);
 }
 
 .primary-button:hover {
@@ -187,6 +178,8 @@ button {
 
 .secondary-button {
   border: 1px solid var(--border);
+
+  color: var(--text);
 
   background: rgba(255, 255, 255, 0.025);
 }
@@ -286,11 +279,7 @@ button {
 .hero-title span {
   color: transparent;
 
-  background: linear-gradient(
-    100deg,
-    #c084fc,
-    #7186ff
-  );
+  background: linear-gradient(100deg, #c084fc, #7186ff);
 
   background-clip: text;
   -webkit-background-clip: text;
@@ -354,11 +343,9 @@ button {
 
   border-radius: 18px;
 
-  border:
-    1px solid rgba(139, 92, 246, 0.2);
+  border: 1px solid rgba(139, 92, 246, 0.2);
 
-  box-shadow:
-    0 40px 90px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.45);
 }
 
 .floating-box {
@@ -373,8 +360,7 @@ button {
 
   color: #c4b5fd;
 
-  border:
-    1px solid rgba(139, 92, 246, 0.25);
+  border: 1px solid rgba(139, 92, 246, 0.25);
 
   border-radius: 10px;
 
@@ -464,11 +450,7 @@ button {
   border-radius: 16px;
 
   background:
-    linear-gradient(
-      145deg,
-      rgba(139, 92, 246, 0.05),
-      transparent 45%
-    ),
+    linear-gradient(145deg, rgba(139, 92, 246, 0.05), transparent 45%),
     var(--card);
 
   transition: 0.25s;
@@ -477,8 +459,7 @@ button {
 .feature-card:hover {
   transform: translateY(-5px);
 
-  border-color:
-    rgba(139, 92, 246, 0.4);
+  border-color: rgba(139, 92, 246, 0.4);
 }
 
 .feature-card-icon {
@@ -494,8 +475,7 @@ button {
 
   border-radius: 11px;
 
-  background:
-    rgba(139, 92, 246, 0.12);
+  background: rgba(139, 92, 246, 0.12);
 }
 
 .feature-card h3 {
@@ -589,8 +569,7 @@ button {
 .subject-pill:hover {
   transform: translateY(-2px);
 
-  border-color:
-    rgba(139, 92, 246, 0.45);
+  border-color: rgba(139, 92, 246, 0.45);
 
   color: white;
 }
@@ -606,8 +585,7 @@ button {
 
   gap: 40px;
 
-  border:
-    1px solid rgba(139, 92, 246, 0.22);
+  border: 1px solid rgba(139, 92, 246, 0.22);
 
   border-radius: 18px;
 
@@ -744,8 +722,7 @@ button {
 
   background: #080b13;
 
-  box-shadow:
-    0 35px 100px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 35px 100px rgba(0, 0, 0, 0.4);
 }
 
 .auth-visual {
@@ -754,16 +731,10 @@ button {
   display: flex;
   align-items: center;
 
-  border-right:
-    1px solid var(--border);
+  border-right: 1px solid var(--border);
 
   background:
-    linear-gradient(
-      145deg,
-      rgba(124, 58, 237, 0.16),
-      transparent 48%
-    ),
-    #070a12;
+    linear-gradient(145deg, rgba(124, 58, 237, 0.16), transparent 48%), #070a12;
 }
 
 .auth-visual-content > span {
@@ -786,13 +757,11 @@ button {
 
   color: #c4b5fd;
 
-  border:
-    1px solid rgba(139, 92, 246, 0.25);
+  border: 1px solid rgba(139, 92, 246, 0.25);
 
   border-radius: 14px;
 
-  background:
-    rgba(139, 92, 246, 0.12);
+  background: rgba(139, 92, 246, 0.12);
 }
 
 .auth-visual h2 {
@@ -826,13 +795,11 @@ button {
 
   gap: 13px;
 
-  border:
-    1px solid rgba(139, 92, 246, 0.18);
+  border: 1px solid rgba(139, 92, 246, 0.18);
 
   border-radius: 11px;
 
-  background:
-    rgba(139, 92, 246, 0.045);
+  background: rgba(139, 92, 246, 0.045);
 }
 
 .auth-insight svg {
@@ -989,11 +956,9 @@ button {
 }
 
 .input-group input:focus {
-  border-color:
-    rgba(139, 92, 246, 0.65);
+  border-color: rgba(139, 92, 246, 0.65);
 
-  box-shadow:
-    0 0 0 3px rgba(139, 92, 246, 0.08);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.08);
 }
 
 .input-group input::placeholder {
@@ -1219,11 +1184,7 @@ button {
   min-height: 100vh;
 
   background:
-    radial-gradient(
-      circle at 85% 5%,
-      rgba(124, 58, 237, 0.1),
-      transparent 28%
-    ),
+    radial-gradient(circle at 85% 5%, rgba(124, 58, 237, 0.1), transparent 28%),
     var(--bg);
 }
 
@@ -1302,11 +1263,7 @@ button {
 .company-page-heading h1 span {
   color: transparent;
 
-  background: linear-gradient(
-    100deg,
-    #c084fc,
-    #7186ff
-  );
+  background: linear-gradient(100deg, #c084fc, #7186ff);
 
   background-clip: text;
   -webkit-background-clip: text;
@@ -1347,8 +1304,7 @@ button {
 .company-search:focus-within {
   border-color: rgba(139, 92, 246, 0.55);
 
-  box-shadow:
-    0 0 0 3px rgba(139, 92, 246, 0.07);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.07);
 }
 
 .company-search svg {
@@ -1407,11 +1363,7 @@ button {
   border-radius: 15px;
 
   background:
-    linear-gradient(
-      145deg,
-      rgba(139, 92, 246, 0.04),
-      transparent 45%
-    ),
+    linear-gradient(145deg, rgba(139, 92, 246, 0.04), transparent 45%),
     var(--card);
 
   transition:
@@ -1425,8 +1377,7 @@ button {
 
   border-color: rgba(139, 92, 246, 0.38);
 
-  box-shadow:
-    0 20px 50px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.22);
 }
 
 .company-card-top {
@@ -1446,12 +1397,11 @@ button {
 
   border: 1px solid rgba(139, 92, 246, 0.24);
 
-  background:
-    linear-gradient(
-      145deg,
-      rgba(139, 92, 246, 0.16),
-      rgba(79, 124, 255, 0.07)
-    );
+  background: linear-gradient(
+    145deg,
+    rgba(139, 92, 246, 0.16),
+    rgba(79, 124, 255, 0.07)
+  );
 }
 
 .company-avatar {
@@ -1552,7 +1502,6 @@ button {
 
   font-size: 10px;
 }
-
 
 /* =====================================================
    COMPANY EXAM SETUP
@@ -1659,11 +1608,7 @@ button {
   border-radius: 17px;
 
   background:
-    linear-gradient(
-      145deg,
-      rgba(139, 92, 246, 0.045),
-      transparent 40%
-    ),
+    linear-gradient(145deg, rgba(139, 92, 246, 0.045), transparent 40%),
     var(--card);
 
   cursor: pointer;
@@ -1676,8 +1621,7 @@ button {
 .exam-option-card:hover {
   border-color: rgba(139, 92, 246, 0.42);
 
-  box-shadow:
-    0 22px 55px rgba(0, 0, 0, 0.26);
+  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.26);
 }
 
 .featured-exam-option {
@@ -1833,7 +1777,6 @@ button {
   gap: 25px;
 }
 
-
 /* =====================================================
    COMPANY PREP RESPONSIVE
 ===================================================== */
@@ -1930,11 +1873,7 @@ button {
   min-height: 100vh;
 
   background:
-    radial-gradient(
-      circle at 88% 8%,
-      rgba(124, 58, 237, 0.1),
-      transparent 27%
-    ),
+    radial-gradient(circle at 88% 8%, rgba(124, 58, 237, 0.1), transparent 27%),
     var(--bg);
 }
 
@@ -1991,11 +1930,7 @@ button {
 .cv-review-heading h1 span {
   color: transparent;
 
-  background: linear-gradient(
-    100deg,
-    #c084fc,
-    #7186ff
-  );
+  background: linear-gradient(100deg, #c084fc, #7186ff);
 
   background-clip: text;
   -webkit-background-clip: text;
@@ -2011,7 +1946,6 @@ button {
   font-size: 15px;
   line-height: 1.7;
 }
-
 
 /* WORKSPACE */
 
@@ -2034,11 +1968,7 @@ button {
   border-radius: 17px;
 
   background:
-    linear-gradient(
-      145deg,
-      rgba(139, 92, 246, 0.04),
-      transparent 42%
-    ),
+    linear-gradient(145deg, rgba(139, 92, 246, 0.04), transparent 42%),
     var(--card);
 }
 
@@ -2076,7 +2006,6 @@ button {
 
   font-size: 11px;
 }
-
 
 /* UPLOAD AREA */
 
@@ -2160,7 +2089,6 @@ button {
   font-size: 11px;
   font-weight: 700;
 }
-
 
 /* SELECTED FILE */
 
@@ -2249,7 +2177,6 @@ button {
   background: rgba(248, 113, 113, 0.05);
 }
 
-
 /* REVIEW BUTTON */
 
 .cv-review-button {
@@ -2312,7 +2239,6 @@ button {
   font-size: 9px;
   line-height: 1.5;
 }
-
 
 /* EMPTY REVIEW */
 
@@ -2389,7 +2315,6 @@ button {
 .cv-review-preview svg {
   color: #8b5cf6;
 }
-
 
 /* RESULT */
 
@@ -2468,11 +2393,7 @@ button {
 
   border-radius: inherit;
 
-  background: linear-gradient(
-    90deg,
-    #8b5cf6,
-    #4f7cff
-  );
+  background: linear-gradient(90deg, #8b5cf6, #4f7cff);
 }
 
 .cv-feedback-section {
@@ -2535,7 +2456,6 @@ button {
 
   margin-top: 16px;
 }
-
 
 /* =====================================================
    CV REVIEW RESPONSIVE
@@ -2636,11 +2556,7 @@ button {
   min-height: 100vh;
 
   background:
-    radial-gradient(
-      circle at 88% 5%,
-      rgba(124, 58, 237, 0.1),
-      transparent 28%
-    ),
+    radial-gradient(circle at 88% 5%, rgba(124, 58, 237, 0.1), transparent 28%),
     var(--bg);
 }
 
@@ -2685,12 +2601,7 @@ button {
 .roadmap-page-heading h1 span {
   color: transparent;
 
-  background:
-    linear-gradient(
-      100deg,
-      #c084fc,
-      #7186ff
-    );
+  background: linear-gradient(100deg, #c084fc, #7186ff);
 
   background-clip: text;
   -webkit-background-clip: text;
@@ -2706,7 +2617,6 @@ button {
   font-size: 15px;
   line-height: 1.7;
 }
-
 
 /* MODE CARDS */
 
@@ -2747,15 +2657,10 @@ button {
 .roadmap-mode-card.selected {
   transform: translateY(-3px);
 
-  border-color:
-    rgba(139, 92, 246, 0.44);
+  border-color: rgba(139, 92, 246, 0.44);
 
   background:
-    linear-gradient(
-      145deg,
-      rgba(139, 92, 246, 0.09),
-      transparent 55%
-    ),
+    linear-gradient(145deg, rgba(139, 92, 246, 0.09), transparent 55%),
     var(--card);
 }
 
@@ -2772,8 +2677,7 @@ button {
 
   border-radius: 12px;
 
-  background:
-    rgba(139, 92, 246, 0.11);
+  background: rgba(139, 92, 246, 0.11);
 }
 
 .roadmap-mode-card span {
@@ -2809,7 +2713,6 @@ button {
   color: #c4b5fd;
 }
 
-
 /* BUILDER */
 
 .roadmap-builder-card {
@@ -2820,11 +2723,7 @@ button {
   border-radius: 17px;
 
   background:
-    linear-gradient(
-      145deg,
-      rgba(139, 92, 246, 0.035),
-      transparent 40%
-    ),
+    linear-gradient(145deg, rgba(139, 92, 246, 0.035), transparent 40%),
     var(--card);
 }
 
@@ -2889,11 +2788,9 @@ button {
 .roadmap-topic-option.selected {
   color: white;
 
-  border-color:
-    rgba(139, 92, 246, 0.5);
+  border-color: rgba(139, 92, 246, 0.5);
 
-  background:
-    rgba(139, 92, 246, 0.08);
+  background: rgba(139, 92, 246, 0.08);
 }
 
 .roadmap-topic-option svg {
@@ -2901,7 +2798,6 @@ button {
 
   color: #a78bfa;
 }
-
 
 /* JOB UPLOAD */
 
@@ -2921,13 +2817,11 @@ button {
 
   color: var(--muted);
 
-  border: 1px dashed
-    rgba(139, 92, 246, 0.35);
+  border: 1px dashed rgba(139, 92, 246, 0.35);
 
   border-radius: 13px;
 
-  background:
-    rgba(139, 92, 246, 0.025);
+  background: rgba(139, 92, 246, 0.025);
 
   cursor: pointer;
 
@@ -2935,11 +2829,9 @@ button {
 }
 
 .roadmap-job-upload:hover {
-  border-color:
-    rgba(139, 92, 246, 0.65);
+  border-color: rgba(139, 92, 246, 0.65);
 
-  background:
-    rgba(139, 92, 246, 0.05);
+  background: rgba(139, 92, 246, 0.05);
 }
 
 .roadmap-job-upload svg {
@@ -2955,7 +2847,6 @@ button {
 .roadmap-job-upload span {
   font-size: 10px;
 }
-
 
 /* TIMELINE */
 
@@ -3034,11 +2925,9 @@ button {
 }
 
 .roadmap-week.selected {
-  border-color:
-    rgba(139, 92, 246, 0.55);
+  border-color: rgba(139, 92, 246, 0.55);
 
-  background:
-    rgba(139, 92, 246, 0.09);
+  background: rgba(139, 92, 246, 0.09);
 }
 
 .roadmap-week.selected strong {
@@ -3103,7 +2992,6 @@ button {
   font-size: 12px;
 }
 
-
 /* =====================================================
    GENERATED ROADMAP
 ===================================================== */
@@ -3146,13 +3034,11 @@ button {
 
   gap: 4px;
 
-  border: 1px solid
-    rgba(139, 92, 246, 0.25);
+  border: 1px solid rgba(139, 92, 246, 0.25);
 
   border-radius: 13px;
 
-  background:
-    rgba(139, 92, 246, 0.05);
+  background: rgba(139, 92, 246, 0.05);
 }
 
 .roadmap-status-box span,
@@ -3185,16 +3071,10 @@ button {
 
   border-radius: inherit;
 
-  background:
-    linear-gradient(
-      90deg,
-      #8b5cf6,
-      #4f7cff
-    );
+  background: linear-gradient(90deg, #8b5cf6, #4f7cff);
 
   transition: width 0.4s;
 }
-
 
 /* CONFIRM / EDIT */
 
@@ -3202,13 +3082,11 @@ button {
   margin-top: 30px;
   padding: 25px;
 
-  border: 1px solid
-    rgba(139, 92, 246, 0.22);
+  border: 1px solid rgba(139, 92, 246, 0.22);
 
   border-radius: 14px;
 
-  background:
-    rgba(139, 92, 246, 0.035);
+  background: rgba(139, 92, 246, 0.035);
 }
 
 .roadmap-decision-card > div:first-child > span {
@@ -3271,8 +3149,7 @@ button {
 }
 
 .roadmap-edit-box textarea:focus {
-  border-color:
-    rgba(139, 92, 246, 0.55);
+  border-color: rgba(139, 92, 246, 0.55);
 }
 
 .roadmap-edit-message {
@@ -3290,13 +3167,11 @@ button {
 
   color: #86efac;
 
-  border: 1px solid
-    rgba(74, 222, 128, 0.17);
+  border: 1px solid rgba(74, 222, 128, 0.17);
 
   border-radius: 11px;
 
-  background:
-    rgba(74, 222, 128, 0.04);
+  background: rgba(74, 222, 128, 0.04);
 }
 
 .roadmap-confirmed-banner div {
@@ -3315,7 +3190,6 @@ button {
 
   font-size: 10px;
 }
-
 
 /* ROADMAP TOPICS */
 
@@ -3347,8 +3221,7 @@ button {
 
   color: #c4b5fd;
 
-  border: 1px solid
-    rgba(139, 92, 246, 0.28);
+  border: 1px solid rgba(139, 92, 246, 0.28);
 
   border-radius: 50%;
 
@@ -3358,15 +3231,12 @@ button {
   font-weight: 800;
 }
 
-.generated-topic-card.completed
-.topic-number {
+.generated-topic-card.completed .topic-number {
   color: #86efac;
 
-  border-color:
-    rgba(74, 222, 128, 0.25);
+  border-color: rgba(74, 222, 128, 0.25);
 
-  background:
-    rgba(74, 222, 128, 0.06);
+  background: rgba(74, 222, 128, 0.06);
 }
 
 .topic-line {
@@ -3375,8 +3245,7 @@ button {
 
   min-height: 30px;
 
-  background:
-    rgba(148, 163, 184, 0.14);
+  background: rgba(148, 163, 184, 0.14);
 }
 
 .generated-topic-content {
@@ -3435,13 +3304,11 @@ button {
 
   color: #86efac;
 
-  border: 1px solid
-    rgba(74, 222, 128, 0.18);
+  border: 1px solid rgba(74, 222, 128, 0.18);
 
   border-radius: 999px;
 
-  background:
-    rgba(74, 222, 128, 0.05);
+  background: rgba(74, 222, 128, 0.05);
 
   font-size: 9px;
   font-weight: 700;
@@ -3487,8 +3354,7 @@ button {
 }
 
 .topic-resource-list > a:hover {
-  border-color:
-    rgba(139, 92, 246, 0.35);
+  border-color: rgba(139, 92, 246, 0.35);
 }
 
 .topic-resource-list > a > div {
@@ -3537,7 +3403,6 @@ button {
   font-size: 9px;
 }
 
-
 /* =====================================================
    ASSESSMENT SETUP
 ===================================================== */
@@ -3579,19 +3444,19 @@ button {
 
   gap: 16px;
 
-@media (max-width: 650px) {
-  .roadmap-timeline-controls {
-    grid-template-columns: 1fr;
-  }
+  @media (max-width: 650px) {
+    .roadmap-timeline-controls {
+      grid-template-columns: 1fr;
+    }
 
-  .roadmap-presets .roadmap-week-options {
-    justify-content: stretch;
-  }
+    .roadmap-presets .roadmap-week-options {
+      justify-content: stretch;
+    }
 
-  .roadmap-presets .roadmap-week {
-    flex: 1 1 70px;
+    .roadmap-presets .roadmap-week {
+      flex: 1 1 70px;
+    }
   }
-}
 }
 
 .assessment-config-card {
@@ -3614,8 +3479,7 @@ button {
 
   border-radius: 11px;
 
-  background:
-    rgba(139, 92, 246, 0.11);
+  background: rgba(139, 92, 246, 0.11);
 }
 
 .assessment-config-card h3 {
@@ -3653,8 +3517,7 @@ button {
 }
 
 .assessment-config-card input:focus {
-  border-color:
-    rgba(139, 92, 246, 0.55);
+  border-color: rgba(139, 92, 246, 0.55);
 }
 
 .assessment-summary-card {
@@ -3667,13 +3530,11 @@ button {
 
   gap: 30px;
 
-  border: 1px solid
-    rgba(139, 92, 246, 0.22);
+  border: 1px solid rgba(139, 92, 246, 0.22);
 
   border-radius: 14px;
 
-  background:
-    rgba(139, 92, 246, 0.035);
+  background: rgba(139, 92, 246, 0.035);
 }
 
 .assessment-summary-card span {
@@ -3697,7 +3558,6 @@ button {
   font-size: 10px;
 }
 
-
 /* =====================================================
    EXAM
 ===================================================== */
@@ -3715,10 +3575,7 @@ button {
 
   height: 72px;
 
-  padding: 0 max(
-    20px,
-    calc((100vw - 1180px) / 2)
-  );
+  padding: 0 max(20px, calc((100vw - 1180px) / 2));
 
   display: flex;
   justify-content: space-between;
@@ -3728,8 +3585,7 @@ button {
 
   border-bottom: 1px solid var(--border);
 
-  background:
-    rgba(5, 7, 13, 0.94);
+  background: rgba(5, 7, 13, 0.94);
 
   backdrop-filter: blur(16px);
 }
@@ -3767,13 +3623,11 @@ button {
 
   color: #c4b5fd;
 
-  border: 1px solid
-    rgba(139, 92, 246, 0.25);
+  border: 1px solid rgba(139, 92, 246, 0.25);
 
   border-radius: 9px;
 
-  background:
-    rgba(139, 92, 246, 0.06);
+  background: rgba(139, 92, 246, 0.06);
 
   font-size: 14px;
   font-weight: 800;
@@ -3782,11 +3636,9 @@ button {
 .exam-timer.danger {
   color: #fca5a5;
 
-  border-color:
-    rgba(248, 113, 113, 0.3);
+  border-color: rgba(248, 113, 113, 0.3);
 
-  background:
-    rgba(248, 113, 113, 0.06);
+  background: rgba(248, 113, 113, 0.06);
 }
 
 .exam-container {
@@ -3809,8 +3661,7 @@ button {
   border: 1px solid var(--border);
   border-radius: 10px;
 
-  background:
-    rgba(255, 255, 255, 0.015);
+  background: rgba(255, 255, 255, 0.015);
 
   font-size: 10px;
 }
@@ -3893,11 +3744,9 @@ button {
 .exam-option.selected {
   color: white;
 
-  border-color:
-    rgba(139, 92, 246, 0.45);
+  border-color: rgba(139, 92, 246, 0.45);
 
-  background:
-    rgba(139, 92, 246, 0.06);
+  background: rgba(139, 92, 246, 0.06);
 }
 
 .exam-option input {
@@ -3932,8 +3781,7 @@ button {
 }
 
 .exam-short-answer:focus {
-  border-color:
-    rgba(139, 92, 246, 0.5);
+  border-color: rgba(139, 92, 246, 0.5);
 }
 
 .exam-submit-area {
@@ -3964,7 +3812,6 @@ button {
 
   font-size: 9px;
 }
-
 
 /* =====================================================
    RESULT
@@ -4020,21 +3867,17 @@ button {
 .result-score.passed {
   color: #86efac;
 
-  border: 1px solid
-    rgba(74, 222, 128, 0.27);
+  border: 1px solid rgba(74, 222, 128, 0.27);
 
-  background:
-    rgba(74, 222, 128, 0.055);
+  background: rgba(74, 222, 128, 0.055);
 }
 
 .result-score.failed {
   color: #fca5a5;
 
-  border: 1px solid
-    rgba(248, 113, 113, 0.25);
+  border: 1px solid rgba(248, 113, 113, 0.25);
 
-  background:
-    rgba(248, 113, 113, 0.05);
+  background: rgba(248, 113, 113, 0.05);
 }
 
 .result-score strong {
@@ -4096,21 +3939,17 @@ button {
 .result-message.success {
   color: #86efac;
 
-  border: 1px solid
-    rgba(74, 222, 128, 0.17);
+  border: 1px solid rgba(74, 222, 128, 0.17);
 
-  background:
-    rgba(74, 222, 128, 0.04);
+  background: rgba(74, 222, 128, 0.04);
 }
 
 .result-message.warning {
   color: #fbbf24;
 
-  border: 1px solid
-    rgba(251, 191, 36, 0.17);
+  border: 1px solid rgba(251, 191, 36, 0.17);
 
-  background:
-    rgba(251, 191, 36, 0.035);
+  background: rgba(251, 191, 36, 0.035);
 }
 
 .result-message div {
@@ -4174,13 +4013,11 @@ button {
 
   color: #c4b5fd;
 
-  border: 1px solid
-    rgba(139, 92, 246, 0.2);
+  border: 1px solid rgba(139, 92, 246, 0.2);
 
   border-radius: 999px;
 
-  background:
-    rgba(139, 92, 246, 0.06);
+  background: rgba(139, 92, 246, 0.06);
 
   font-size: 10px;
 }
@@ -4211,13 +4048,11 @@ button {
 }
 
 .answer-review-card.correct {
-  border-left:
-    3px solid rgba(74, 222, 128, 0.6);
+  border-left: 3px solid rgba(74, 222, 128, 0.6);
 }
 
 .answer-review-card.incorrect {
-  border-left:
-    3px solid rgba(248, 113, 113, 0.6);
+  border-left: 3px solid rgba(248, 113, 113, 0.6);
 }
 
 .answer-review-top {
@@ -4283,8 +4118,7 @@ button {
 }
 
 .answer-detail.correct-answer {
-  border: 1px solid
-    rgba(74, 222, 128, 0.1);
+  border: 1px solid rgba(74, 222, 128, 0.1);
 }
 
 .answer-explanation {
@@ -4339,7 +4173,6 @@ button {
   color: var(--muted);
 }
 
-
 /* =====================================================
    MOBILE RESPONSIVENESS
 ===================================================== */
@@ -4385,8 +4218,7 @@ button {
 
   .roadmap-week-options {
     display: grid;
-    grid-template-columns:
-      repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .roadmap-week {
@@ -4506,7 +4338,6 @@ button {
 ===================================================== */
 
 @media (min-width: 901px) {
-
   /* Roadmap text */
   .generated-topic-content > p {
     font-size: 14px;
@@ -4633,7 +4464,11 @@ button {
   min-height: calc(100vh - 72px);
   overflow: hidden;
   background:
-    radial-gradient(circle at 90% 0%, rgba(124, 58, 237, 0.12), transparent 30%),
+    radial-gradient(
+      circle at 90% 0%,
+      rgba(124, 58, 237, 0.12),
+      transparent 30%
+    ),
     var(--bg);
 }
 
@@ -4701,7 +4536,11 @@ button {
   display: flex;
   align-items: center;
   gap: 18px;
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(12, 17, 29, 0.88) 60%);
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.12),
+    rgba(12, 17, 29, 0.88) 60%
+  );
 }
 
 .profile-avatar {
@@ -4713,7 +4552,11 @@ button {
   border: 1px solid rgba(196, 181, 253, 0.35);
   border-radius: 18px;
   color: #ede9fe;
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.8), rgba(79, 124, 255, 0.7));
+  background: linear-gradient(
+    135deg,
+    rgba(124, 58, 237, 0.8),
+    rgba(79, 124, 255, 0.7)
+  );
   font-size: 20px;
   font-weight: 800;
 }
@@ -4812,7 +4655,9 @@ button {
   gap: 16px;
   padding: 19px 21px;
   border-radius: 12px;
-  transition: border-color 0.2s, transform 0.2s;
+  transition:
+    border-color 0.2s,
+    transform 0.2s;
 }
 
 .profile-roadmap-card:hover {
