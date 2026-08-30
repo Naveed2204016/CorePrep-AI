@@ -16,12 +16,16 @@ import {
 
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import { cvReviewService } from "../services/cvReviewService";
+import type { CVReviewResult } from "../types/cvReview";
+
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 const CVReviewPage = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [error, setError] = useState("");
   const [reviewing, setReviewing] = useState(false);
-  const [showReview, setShowReview] = useState(false);
+  const [review, setReview] = useState<CVReviewResult | null>(null);
 
   const handleFileChange = (
     event: ChangeEvent<HTMLInputElement>
@@ -33,22 +37,29 @@ const CVReviewPage = () => {
     if (file.type !== "application/pdf") {
       setError("Please upload your CV in PDF format.");
       setSelectedFile(null);
-      setShowReview(false);
+      setReview(null);
+      return;
+    }
+
+    if (file.size > MAX_FILE_SIZE) {
+      setError("Please upload a PDF that is 5 MB or smaller.");
+      setSelectedFile(null);
+      setReview(null);
       return;
     }
 
     setError("");
     setSelectedFile(file);
-    setShowReview(false);
+    setReview(null);
   };
 
   const removeFile = () => {
     setSelectedFile(null);
-    setShowReview(false);
+    setReview(null);
     setError("");
   };
 
-  const handleReview = () => {
+  const handleReview = async () => {
     if (!selectedFile) {
       setError("Please upload a CV before requesting a review.");
       return;
@@ -56,14 +67,19 @@ const CVReviewPage = () => {
 
     setReviewing(true);
     setError("");
-    setShowReview(false);
+    setReview(null);
 
-    // Temporary mock review.
-    // Later this will be replaced by the FastAPI CV review endpoint.
-    setTimeout(() => {
+    try {
+      setReview(await cvReviewService.analyze(selectedFile));
+    } catch (cause) {
+      setError(
+        cause instanceof Error
+          ? cause.message
+          : "The CV could not be reviewed. Please try again.",
+      );
+    } finally {
       setReviewing(false);
-      setShowReview(true);
-    }, 1000);
+    }
   };
 
   return (
@@ -201,8 +217,8 @@ const CVReviewPage = () => {
               </button>
 
               <p className="cv-privacy-note">
-                Your uploaded file is currently used only for the UI
-                demonstration and is not sent to a server.
+                Your PDF is processed in memory for this review and is
+                not saved by CorePrep.
               </p>
             </motion.section>
 
@@ -214,7 +230,7 @@ const CVReviewPage = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.18 }}
             >
-              {!showReview ? (
+              {!review ? (
                 <div className="cv-empty-review">
                   <div className="cv-empty-icon">
                     <Sparkles size={28} />
@@ -262,14 +278,16 @@ const CVReviewPage = () => {
                     </div>
 
                     <div className="cv-score">
-                      <strong>82</strong>
+                      <strong>{review.score}</strong>
                       <span>/100</span>
                     </div>
                   </div>
 
                   <div className="cv-score-bar">
-                    <div />
+                    <div style={{ width: `${review.score}%` }} />
                   </div>
+
+                  <p className="cv-review-summary">{review.summary}</p>
 
                   <div className="cv-feedback-section positive">
                     <h3>
@@ -277,21 +295,7 @@ const CVReviewPage = () => {
                       What looks good
                     </h3>
 
-                    <ul>
-                      <li>
-                        Your CV has a clean and readable overall
-                        structure.
-                      </li>
-
-                      <li>
-                        Technical skills are presented clearly.
-                      </li>
-
-                      <li>
-                        Project experience is relevant to software
-                        engineering roles.
-                      </li>
-                    </ul>
+                    <ul>{review.strengths.map((item) => <li key={item}>{item}</li>)}</ul>
                   </div>
 
                   <div className="cv-feedback-section improvement">
@@ -300,32 +304,51 @@ const CVReviewPage = () => {
                       Areas to improve
                     </h3>
 
-                    <ul>
-                      <li>
-                        Make project descriptions more
-                        achievement-oriented.
-                      </li>
-
-                      <li>
-                        Use measurable results where possible.
-                      </li>
-
-                      <li>
-                        Keep the skills section focused on technologies
-                        relevant to your target role.
-                      </li>
-                    </ul>
+                    <div className="cv-improvement-list">
+                      {review.improvements.map((item) => (
+                        <article className="cv-improvement-card" key={`${item.priority}-${item.title}`}>
+                          <div>
+                            <span className={`cv-priority cv-priority-${item.priority}`}>
+                              {item.priority} priority
+                            </span>
+                            <h4>{item.title}</h4>
+                          </div>
+                          <p>{item.detail}</p>
+                          <small><strong>Rewrite tip:</strong> {item.rewrite_tip}</small>
+                        </article>
+                      ))}
+                    </div>
                   </div>
 
-                  <div className="cv-dummy-warning">
-                    This is a temporary dummy response. AI-generated
-                    CV analysis will be connected later.
+                  {(review.missing_sections.length > 0 || review.keywords_found.length > 0) && (
+                    <div className="cv-review-meta">
+                      {review.missing_sections.length > 0 && (
+                        <div>
+                          <h3>Missing or useful sections</h3>
+                          <div className="cv-chip-list">
+                            {review.missing_sections.map((item) => <span key={item}>{item}</span>)}
+                          </div>
+                        </div>
+                      )}
+                      {review.keywords_found.length > 0 && (
+                        <div>
+                          <h3>Technical keywords found</h3>
+                          <div className="cv-chip-list cv-keyword-list">
+                            {review.keywords_found.map((item) => <span key={item}>{item}</span>)}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  <div className="cv-review-file-note">
+                    Reviewed {review.file_name} · {review.page_count} {review.page_count === 1 ? "page" : "pages"}
                   </div>
 
                   <button
                     type="button"
                     className="secondary-button cv-review-again"
-                    onClick={() => setShowReview(false)}
+                    onClick={() => setReview(null)}
                   >
                     <RotateCcw size={16} />
                     Review Again

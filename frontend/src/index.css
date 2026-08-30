@@ -2388,12 +2388,18 @@ button {
 }
 
 .cv-score-bar div {
-  width: 82%;
   height: 100%;
 
   border-radius: inherit;
 
   background: linear-gradient(90deg, #8b5cf6, #4f7cff);
+}
+
+.cv-review-summary {
+  margin: -8px 0 20px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
 }
 
 .cv-feedback-section {
@@ -2436,6 +2442,110 @@ button {
 
 .cv-feedback-section li + li {
   margin-top: 7px;
+}
+
+.cv-improvement-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.cv-improvement-card {
+  padding: 13px;
+  border: 1px solid rgba(148, 163, 184, 0.13);
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.42);
+}
+
+.cv-improvement-card > div {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 8px;
+}
+
+.cv-improvement-card h4 {
+  color: #e2e8f0;
+  font-size: 12px;
+}
+
+.cv-improvement-card p,
+.cv-improvement-card small {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.65;
+}
+
+.cv-improvement-card small {
+  margin-top: 8px;
+  color: #94a3b8;
+}
+
+.cv-priority {
+  padding: 3px 7px;
+  border-radius: 999px;
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.cv-priority-high {
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.cv-priority-medium {
+  color: #fcd34d;
+  background: rgba(245, 158, 11, 0.12);
+}
+
+.cv-priority-low {
+  color: #93c5fd;
+  background: rgba(59, 130, 246, 0.12);
+}
+
+.cv-review-meta {
+  display: grid;
+  gap: 15px;
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.cv-review-meta h3 {
+  margin-bottom: 9px;
+  color: #cbd5e1;
+  font-size: 11px;
+}
+
+.cv-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cv-chip-list span {
+  padding: 5px 8px;
+  border-radius: 999px;
+  color: #fda4af;
+  background: rgba(244, 63, 94, 0.09);
+  font-size: 8px;
+}
+
+.cv-keyword-list span {
+  color: #a7f3d0;
+  background: rgba(16, 185, 129, 0.09);
+}
+
+.cv-review-file-note {
+  margin-top: 14px;
+  color: #64748b;
+  font-size: 9px;
+  text-align: center;
 }
 
 .cv-dummy-warning {

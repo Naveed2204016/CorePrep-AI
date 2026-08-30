@@ -6,6 +6,7 @@ from app.db.database import Base, engine
 from app.api.v1.auth import router as auth_router
 from app.api.v1.roadmaps import router as roadmaps_router
 from app.api.v1.assessments import router as assessments_router
+from app.api.v1.cv_reviews import router as cv_reviews_router
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 from app.models import roadmap
@@ -39,6 +40,7 @@ app.add_middleware(
 app.include_router(auth_router)
 app.include_router(roadmaps_router)
 app.include_router(assessments_router)
+app.include_router(cv_reviews_router)
 
 
 @app.get("/")
