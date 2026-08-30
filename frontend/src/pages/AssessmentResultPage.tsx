@@ -23,7 +23,7 @@ const AssessmentResultPage = () => {
     roadmapService.getRoadmap();
 
   const topic = roadmap?.topics.find(
-    (item) => item.id === topicId
+    (item) => String(item.id) === topicId
   );
 
   const stored =
@@ -80,6 +80,16 @@ const AssessmentResultPage = () => {
                 explanations and recommended
                 revision areas.
               </p>
+
+              <div className={result.evaluationSource === "fallback" ? "result-source fallback" : "result-source"}>
+                {result.evaluationSource === "fallback"
+                  ? "Deterministic fallback evaluation"
+                  : result.evaluationSource === "groq-rag"
+                    ? "Groq + RAG evaluation"
+                    : result.evaluationSource === "stored"
+                      ? "Previously completed evaluation"
+                    : "Evaluation source unavailable"}
+              </div>
             </div>
 
             <div

@@ -1,9 +1,14 @@
+import os
+
 from fastapi import FastAPI
 
 from app.db.database import Base, engine
 from app.api.v1.auth import router as auth_router
+from app.api.v1.roadmaps import router as roadmaps_router
+from app.api.v1.assessments import router as assessments_router
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
+from app.models import roadmap
 
 
 Base.metadata.create_all(
@@ -17,23 +22,23 @@ app = FastAPI(
 
 app.add_middleware(
     SessionMiddleware,
-    secret_key="coreprep_secret_key"
+    secret_key=os.getenv("SECRET_KEY", "coreprep-dev-only-change-me")
 )
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173"
-    ],
+    allow_origins=[origin.strip() for origin in os.getenv(
+        "CORS_ORIGINS", "http://localhost:5173"
+    ).split(",") if origin.strip()],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 
-app.include_router(
-    auth_router
-)
+app.include_router(auth_router)
+app.include_router(roadmaps_router)
+app.include_router(assessments_router)
 
 
 @app.get("/")
@@ -42,3 +47,8 @@ def home():
     return {
         "message":"CorePrep API running"
     }
+
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}

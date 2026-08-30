@@ -2,9 +2,9 @@ import type {
   AssessmentConfig,
   ExamQuestion,
   ExamResult,
+  GeneratedAssessment,
   GeneratedRoadmap,
   RoadmapInput,
-  RoadmapTopic,
 } from "../types/roadmap";
 
 export const SUPPORTED_TOPICS = [
@@ -22,6 +22,36 @@ export const SUPPORTED_TOPICS = [
   "Software Testing & QA",
 ];
 
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api/v1";
+
+const apiRequest = async <T>(path: string, init: RequestInit = {}): Promise<T> => {
+  const token = localStorage.getItem("coreprep_token");
+  const isFormData = init.body instanceof FormData;
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    ...init,
+    headers: {
+      ...(!isFormData ? { "Content-Type": "application/json" } : {}),
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...init.headers,
+    },
+  });
+  if (!response.ok) {
+    const body = await response.json().catch(() => ({}));
+    throw new Error(body.detail || "The roadmap request failed");
+  }
+  if (response.status === 204) {
+    return undefined as T;
+  }
+  return response.json();
+};
+
+const cacheCurrentRoadmap = (roadmap: GeneratedRoadmap) => {
+  sessionStorage.setItem("coreprep_roadmap", JSON.stringify(roadmap));
+};
+
+/* The backend owns curriculum generation and resource selection. */
+/*
 const topicUnits: Record<string, string[]> = {
   "Data Structures & Algorithms": [
     "Complexity, Arrays & Strings",
@@ -284,55 +314,145 @@ const createJobRoadmap = (weeks: number): RoadmapTopic[] => {
     ],
   }));
 };
+*/
 
 export const roadmapService = {
   async generateRoadmap(
     input: RoadmapInput
   ): Promise<GeneratedRoadmap> {
-    await wait(900);
-
-    const source =
-      input.mode === "topic"
-        ? input.topic || "Selected Topic"
-        : input.jobFileName || "Uploaded Job Description";
-
-    const topics =
-      input.mode === "topic"
-        ? createTopicRoadmap(source, input.weeks)
-        : createJobRoadmap(input.weeks);
-
-    const roadmapId = `roadmap-${Date.now()}`;
-
-    const roadmap: GeneratedRoadmap = {
-      id: roadmapId,
-      title:
-        input.mode === "topic"
-          ? `${source} Interview Preparation`
-          : "Job-Focused Software Engineering Preparation",
-      mode: input.mode,
-      weeks: input.weeks,
-      sourceLabel: source,
-      topics: topics.map((topic) => ({
-        ...topic,
-        id: `${roadmapId}-${topic.id}`,
-      })),
-      confirmed: false,
-    };
-
-    sessionStorage.setItem(
-      "coreprep_roadmap",
-      JSON.stringify(roadmap)
-    );
-
-    const roadmaps = this.getRoadmaps().filter(
-      (item) => item.id !== roadmap.id
-    );
-    localStorage.setItem(
-      "coreprep_roadmaps",
-      JSON.stringify([roadmap, ...roadmaps])
-    );
-
+    let roadmap: GeneratedRoadmap;
+    if (input.mode === "job") {
+      if (!input.jobFile) throw new Error("Please upload a job description first.");
+      const form = new FormData();
+      form.append("timeline", String(input.weeks));
+      form.append("file", input.jobFile);
+      roadmap = await apiRequest<GeneratedRoadmap>("/roadmaps/generate-from-job", {
+        method: "POST",
+        body: form,
+      });
+    } else {
+      roadmap = await apiRequest<GeneratedRoadmap>("/roadmaps/generate", {
+        method: "POST",
+        body: JSON.stringify({ subject: input.topic, timeline: input.weeks }),
+      });
+    }
+    cacheCurrentRoadmap(roadmap);
     return roadmap;
+  },
+
+  async suggestEdit(roadmapId: string | number, suggestion: string) {
+    const roadmap = await apiRequest<GeneratedRoadmap>(
+      `/roadmaps/${roadmapId}/suggest-edit`,
+      { method: "POST", body: JSON.stringify({ suggestion }) },
+    );
+    cacheCurrentRoadmap(roadmap);
+    return roadmap;
+  },
+
+  async confirmRoadmap(roadmapId: string | number) {
+    const roadmap = await apiRequest<GeneratedRoadmap>(
+      `/roadmaps/${roadmapId}/confirm`,
+      { method: "POST" },
+    );
+    cacheCurrentRoadmap(roadmap);
+    const cached = this.getRoadmaps().filter((item) => item.id !== roadmap.id);
+    localStorage.setItem("coreprep_roadmaps", JSON.stringify([roadmap, ...cached]));
+    return roadmap;
+  },
+
+  async fetchRoadmaps() {
+    const roadmaps = await apiRequest<GeneratedRoadmap[]>("/roadmaps");
+    localStorage.setItem("coreprep_roadmaps", JSON.stringify(roadmaps));
+    return roadmaps;
+  },
+
+  async deleteRoadmap(roadmapId: string | number) {
+    await apiRequest<void>(`/roadmaps/${roadmapId}`, { method: "DELETE" });
+
+    const target = this.getRoadmaps().find((item) => item.id === roadmapId);
+    const remaining = this.getRoadmaps().filter((item) => item.id !== roadmapId);
+    localStorage.setItem("coreprep_roadmaps", JSON.stringify(remaining));
+
+    const current = this.getRoadmap();
+    if (current?.id === roadmapId) {
+      sessionStorage.removeItem("coreprep_roadmap");
+    }
+
+    if (target) {
+      const removedTopicIds = new Set(target.topics.map((topic) => String(topic.id)));
+      const completed = this.getCompletedTopics().filter(
+        (topicId) => !removedTopicIds.has(topicId),
+      );
+      localStorage.setItem("coreprep_completed_topics", JSON.stringify(completed));
+    }
+  },
+
+  async generateAssessment(
+    roadmapId: string | number,
+    topicId: string | number,
+    mcqCount: number,
+    shortCount: number,
+    durationMinutes: number,
+  ) {
+    const assessment = await apiRequest<GeneratedAssessment>("/assessments/generate", {
+      method: "POST",
+      body: JSON.stringify({
+        roadmap_id: Number(roadmapId),
+        topic_id: Number(topicId),
+        num_mcq: mcqCount,
+        num_short: shortCount,
+        duration_minutes: durationMinutes,
+      }),
+    });
+    sessionStorage.setItem("coreprep_active_assessment", JSON.stringify(assessment));
+    sessionStorage.setItem(
+      "coreprep_assessment_deadline",
+      String(Date.now() + assessment.durationMinutes * 60_000),
+    );
+    return assessment;
+  },
+
+  getActiveAssessment(): GeneratedAssessment | null {
+    const stored = sessionStorage.getItem("coreprep_active_assessment");
+    return stored ? JSON.parse(stored) : null;
+  },
+
+  getAssessmentDeadline(): number | null {
+    const stored = sessionStorage.getItem("coreprep_assessment_deadline");
+    return stored ? Number(stored) : null;
+  },
+
+  async submitAssessment(
+    assessmentId: number,
+    answers: Record<string, string>,
+  ) {
+    const requestStarted = Date.now();
+    const submit = () => apiRequest<ExamResult>(`/assessments/${assessmentId}/submit`, {
+      method: "POST",
+      body: JSON.stringify({
+        answers: Object.entries(answers).map(([questionId, answer]) => ({
+          question_id: Number(questionId),
+          answer,
+        })),
+      }),
+    });
+    let result: ExamResult;
+    try {
+      result = await submit();
+    } catch (cause) {
+      // Retry only quick failures (for example a brief dropped connection). A
+      // long-running timeout should not start another three-minute evaluation.
+      if (Date.now() - requestStarted >= 15_000) throw cause;
+      await new Promise((resolve) => window.setTimeout(resolve, 750));
+      result = await submit();
+    }
+    if (result.passed) {
+      this.markTopicCompleted(result.topicId);
+    }
+    sessionStorage.removeItem("coreprep_assessment_deadline");
+    sessionStorage.removeItem("coreprep_active_assessment");
+    sessionStorage.removeItem(`coreprep_exam_answers_${assessmentId}`);
+    return result;
   },
 
   getRoadmap(): GeneratedRoadmap | null {
@@ -398,20 +518,41 @@ export const roadmapService = {
       "coreprep_completed_topics"
     );
 
-    return stored ? JSON.parse(stored) : [];
+    const completed: Array<string | number> = stored ? JSON.parse(stored) : [];
+    return completed.map(String);
   },
 
-  markTopicCompleted(topicId: string) {
+  markTopicCompleted(topicId: string | number) {
     const completed = this.getCompletedTopics();
+    const normalizedTopicId = String(topicId);
 
-    if (!completed.includes(topicId)) {
-      completed.push(topicId);
+    if (!completed.includes(normalizedTopicId)) {
+      completed.push(normalizedTopicId);
     }
 
     localStorage.setItem(
       "coreprep_completed_topics",
       JSON.stringify(completed)
     );
+
+    const update = (roadmap: GeneratedRoadmap) => ({
+      ...roadmap,
+      topics: roadmap.topics.map((topic) =>
+        String(topic.id) === normalizedTopicId
+          ? { ...topic, completed: true }
+          : topic,
+      ),
+    });
+    const current = this.getRoadmap();
+    if (current?.topics.some((topic) => String(topic.id) === normalizedTopicId)) {
+      sessionStorage.setItem("coreprep_roadmap", JSON.stringify(update(current)));
+    }
+    const roadmaps = this.getRoadmaps().map((roadmap) =>
+      roadmap.topics.some((topic) => String(topic.id) === normalizedTopicId)
+        ? update(roadmap)
+        : roadmap,
+    );
+    localStorage.setItem("coreprep_roadmaps", JSON.stringify(roadmaps));
   },
 
   generateQuestions(
@@ -530,7 +671,7 @@ export const roadmapService = {
   },
 
   evaluateExam(
-    topicId: string,
+    topicId: string | number,
     questions: ExamQuestion[],
     answers: Record<string, string>
   ): ExamResult {

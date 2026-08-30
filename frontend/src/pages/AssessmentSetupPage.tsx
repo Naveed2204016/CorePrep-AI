@@ -22,7 +22,7 @@ const AssessmentSetupPage = () => {
     roadmapService.getRoadmap();
 
   const topic = roadmap?.topics.find(
-    (item) => item.id === topicId
+    (item) => String(item.id) === topicId
   );
 
   const [mcqCount, setMcqCount] =
@@ -33,6 +33,8 @@ const AssessmentSetupPage = () => {
 
   const [duration, setDuration] =
     useState(20);
+  const [generating, setGenerating] = useState(false);
+  const [error, setError] = useState("");
 
   if (!roadmap || !topic || !topicId) {
     return (
@@ -53,7 +55,13 @@ const AssessmentSetupPage = () => {
     );
   }
 
-  const startExam = () => {
+  const startExam = async () => {
+    if (mcqCount + shortCount < 1) {
+      setError("Select at least one MCQ or short-answer question.");
+      return;
+    }
+    setGenerating(true);
+    setError("");
     roadmapService.saveAssessmentConfig({
       topicId,
       mcqCount,
@@ -61,9 +69,20 @@ const AssessmentSetupPage = () => {
       durationMinutes: duration,
     });
 
-    navigate(
-      `/roadmap/assessment/${topicId}/exam`
-    );
+    try {
+      await roadmapService.generateAssessment(
+        roadmap.id,
+        topic.id,
+        mcqCount,
+        shortCount,
+        duration,
+      );
+      navigate(`/roadmap/assessment/${topicId}/exam`);
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "Could not generate the assessment.");
+    } finally {
+      setGenerating(false);
+    }
   };
 
   return (
@@ -106,15 +125,15 @@ const AssessmentSetupPage = () => {
 
               <input
                 type="number"
-                min="1"
-                max="20"
+                min="0"
+                max="10"
                 value={mcqCount}
                 onChange={(event) =>
                   setMcqCount(
                     Math.max(
-                      1,
+                      0,
                       Math.min(
-                        20,
+                        10,
                         Number(
                           event.target.value
                         )
@@ -206,12 +225,14 @@ const AssessmentSetupPage = () => {
               </p>
             </div>
 
+            {error && <p className="roadmap-error">{error}</p>}
             <button
               className="primary-button"
               onClick={startExam}
+              disabled={generating}
             >
               <Play size={17} />
-              Start Exam
+              {generating ? "Generating Questions..." : "Start Exam"}
             </button>
           </div>
         </div>

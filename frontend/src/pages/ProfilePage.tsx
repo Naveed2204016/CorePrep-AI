@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, Check, LogOut, Map, Save, UserRound } from "lucide-react";
+import { ArrowLeft, Check, LogOut, Map, Save, Trash2, UserRound } from "lucide-react";
 
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
@@ -11,13 +11,21 @@ import { roadmapService } from "../services/roadmapService";
 const ProfilePage = () => {
   const navigate = useNavigate();
   const user = authService.getCurrentUser();
-  const roadmaps = roadmapService.getRoadmaps();
+  const [roadmaps, setRoadmaps] = useState(roadmapService.getRoadmaps());
   const [name, setName] = useState(user?.name ?? "");
   const [email, setEmail] = useState(user?.email ?? "");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [deletingRoadmapId, setDeletingRoadmapId] = useState<string | number | null>(null);
+  const [roadmapError, setRoadmapError] = useState("");
+
+  useEffect(() => {
+    roadmapService.fetchRoadmaps().then(setRoadmaps).catch(() => {
+      // Keep the last cached list when the API is temporarily unavailable.
+    });
+  }, []);
 
   if (!user) {
     return (
@@ -56,6 +64,22 @@ const ProfilePage = () => {
     navigate("/");
   };
 
+  const deleteRoadmap = async (roadmapId: string | number, title: string) => {
+    if (!window.confirm(`Delete "${title}"? This will also delete its assessments and progress.`)) {
+      return;
+    }
+    setDeletingRoadmapId(roadmapId);
+    setRoadmapError("");
+    try {
+      await roadmapService.deleteRoadmap(roadmapId);
+      setRoadmaps((items) => items.filter((item) => item.id !== roadmapId));
+    } catch (cause) {
+      setRoadmapError(cause instanceof Error ? cause.message : "Could not delete the roadmap.");
+    } finally {
+      setDeletingRoadmapId(null);
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -90,15 +114,27 @@ const ProfilePage = () => {
               {roadmaps.length ? (
                 <div className="profile-roadmap-list">
                   {roadmaps.map((item) => (
-                    <Link
-                      to="/roadmap/current"
-                      className="profile-roadmap-item"
-                      key={item.id}
-                      onClick={() => roadmapService.selectRoadmap(item)}
-                    >
+                    <div className="profile-roadmap-row" key={item.id}>
+                      <Link
+                        to="/roadmap/current"
+                        className="profile-roadmap-item"
+                        onClick={() => roadmapService.selectRoadmap(item)}
+                      >
                       <div><strong>{item.title}</strong><span>{item.weeks} weeks · {item.topics.length} topics</span></div><ArrowLeft size={17} />
-                    </Link>
+                      </Link>
+                      <button
+                        type="button"
+                        className="profile-roadmap-delete"
+                        aria-label={`Delete ${item.title}`}
+                        title="Delete roadmap"
+                        disabled={deletingRoadmapId === item.id}
+                        onClick={() => deleteRoadmap(item.id, item.title)}
+                      >
+                        <Trash2 size={17} />
+                      </button>
+                    </div>
                   ))}
+                  {roadmapError && <p className="profile-error">{roadmapError}</p>}
                 </div>
               ) : (
                 <p className="profile-muted">No roadmap created yet. Your roadmap will appear here after you create one.</p>

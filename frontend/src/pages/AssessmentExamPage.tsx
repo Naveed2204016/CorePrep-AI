@@ -14,6 +14,7 @@ import {
 import {
   AlertTriangle,
   Clock3,
+  LoaderCircle,
   Send,
 } from "lucide-react";
 
@@ -30,64 +31,73 @@ const AssessmentExamPage = () => {
     roadmapService.getAssessmentConfig();
 
   const topic = roadmap?.topics.find(
-    (item) => item.id === topicId
+    (item) => String(item.id) === topicId
   );
 
-  const questions =
-    topic && config
-      ? roadmapService.generateQuestions(
-          topic.title,
-          config.mcqCount,
-          config.shortCount
-        )
-      : [];
+  const assessment = roadmapService.getActiveAssessment();
+  const deadline = roadmapService.getAssessmentDeadline();
+  const questions = assessment?.questions ?? [];
+
+  const answerStorageKey = assessment
+    ? `coreprep_exam_answers_${assessment.assessmentId}`
+    : null;
 
   const [answers, setAnswers] = useState<
     Record<string, string>
-  >({});
+  >(() => {
+    if (!answerStorageKey) return {};
+    try {
+      const stored = sessionStorage.getItem(answerStorageKey);
+      return stored ? JSON.parse(stored) : {};
+    } catch {
+      return {};
+    }
+  });
 
   const [secondsLeft, setSecondsLeft] =
     useState(
-      config
-        ? config.durationMinutes * 60
-        : 0
+      deadline
+        ? Math.max(0, Math.ceil((deadline - Date.now()) / 1000))
+        : config
+          ? config.durationMinutes * 60
+          : 0
     );
 
   const submitted = useRef(false);
+  const autoSubmitAttempted = useRef(false);
+  const [evaluating, setEvaluating] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
-  const submitExam = useCallback(() => {
+  const submitExam = useCallback(async () => {
     if (
       submitted.current ||
       !topicId ||
+      !assessment ||
       questions.length === 0
     ) {
       return;
     }
 
     submitted.current = true;
-
-    const result =
-      roadmapService.evaluateExam(
-        topicId,
-        questions,
-        answers
+    setEvaluating(true);
+    setSubmitError("");
+    try {
+      const result = await roadmapService.submitAssessment(
+        assessment.assessmentId,
+        answers,
       );
-
-    sessionStorage.setItem(
-      "coreprep_exam_result",
-      JSON.stringify(result)
-    );
-
-    if (result.passed) {
-      roadmapService.markTopicCompleted(
-        topicId
-      );
+      sessionStorage.setItem("coreprep_exam_result", JSON.stringify(result));
+      if (result.passed) {
+        roadmapService.markTopicCompleted(topicId);
+      }
+      navigate(`/roadmap/assessment/${topicId}/result`);
+    } catch (cause) {
+      submitted.current = false;
+      setEvaluating(false);
+      setSubmitError(cause instanceof Error ? cause.message : "Evaluation failed. Please submit again.");
     }
-
-    navigate(
-      `/roadmap/assessment/${topicId}/result`
-    );
   }, [
+    assessment,
     answers,
     navigate,
     questions,
@@ -95,24 +105,34 @@ const AssessmentExamPage = () => {
   ]);
 
   useEffect(() => {
+    if (answerStorageKey) {
+      sessionStorage.setItem(answerStorageKey, JSON.stringify(answers));
+    }
+  }, [answerStorageKey, answers]);
+
+  useEffect(() => {
     if (!config) return;
 
     const interval = setInterval(() => {
-      setSecondsLeft((previous) =>
-        previous > 0 ? previous - 1 : 0
+      setSecondsLeft(
+        deadline
+          ? Math.max(0, Math.ceil((deadline - Date.now()) / 1000))
+          : 0,
       );
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [config]);
+  }, [config, deadline]);
 
   useEffect(() => {
     if (
       secondsLeft === 0 &&
       config &&
-      !submitted.current
+      !submitted.current &&
+      !autoSubmitAttempted.current
     ) {
-      submitExam();
+      autoSubmitAttempted.current = true;
+      void submitExam();
     }
   }, [
     secondsLeft,
@@ -123,6 +143,7 @@ const AssessmentExamPage = () => {
   if (
     !roadmap ||
     !config ||
+    !assessment ||
     !topic ||
     !topicId
   ) {
@@ -136,6 +157,17 @@ const AssessmentExamPage = () => {
         >
           Return to Roadmap
         </Link>
+      </main>
+    );
+  }
+
+  if (evaluating) {
+    return (
+      <main className="assessment-evaluation-loading">
+        <LoaderCircle size={42} />
+        <span>AI EVALUATION IN PROGRESS</span>
+        <h1>Evaluating your answers</h1>
+        <p>Groq is checking every response against the {roadmap.sourceLabel} corpus. This should finish within three minutes.</p>
       </main>
     );
   }
@@ -177,6 +209,16 @@ const AssessmentExamPage = () => {
       </header>
 
       <div className="container exam-container">
+        {submitError && (
+          <div className="exam-info-banner">
+            <AlertTriangle size={17} />
+            <p>
+              Submission was not completed. Your answers are saved on this device.
+              {" "}{submitError} Please submit again.
+            </p>
+          </div>
+        )}
+
         <div className="exam-info-banner">
           <AlertTriangle size={17} />
 
@@ -208,7 +250,7 @@ const AssessmentExamPage = () => {
 
                 {question.type === "mcq" ? (
                   <div className="exam-options">
-                    {question.options.map(
+                    {(question.options ?? []).map(
                       (option) => (
                         <label
                           key={option}
@@ -223,7 +265,7 @@ const AssessmentExamPage = () => {
                           <input
                             type="radio"
                             name={
-                              question.id
+                              String(question.id)
                             }
                             value={option}
                             checked={

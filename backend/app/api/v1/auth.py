@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from urllib.parse import urlencode
+import os
 
 from app.db.database import get_db
 from app.models.user import User
@@ -109,9 +110,8 @@ async def google_login(
     request:Request
 ):
 
-    redirect_uri = (
-        "http://localhost:8000/api/v1/auth/google/callback"
-    )
+    backend_url = os.getenv("BACKEND_PUBLIC_URL", "http://localhost:8000").rstrip("/")
+    redirect_uri = f"{backend_url}/api/v1/auth/google/callback"
 
     return await oauth.google.authorize_redirect(
         request,
@@ -169,6 +169,5 @@ async def google_callback(
         "email": user.email
     })
 
-    return RedirectResponse(
-        url=f"http://localhost:5173/oauth-success?{query_params}"
-    )
+    frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173").rstrip("/")
+    return RedirectResponse(url=f"{frontend_url}/oauth-success?{query_params}")

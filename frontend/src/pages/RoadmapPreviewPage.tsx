@@ -35,6 +35,8 @@ const RoadmapPreviewPage = () => {
   const [editMessage, setEditMessage] =
     useState("");
 
+  const [saving, setSaving] = useState(false);
+
   const completedTopics =
     roadmapService.getCompletedTopics();
 
@@ -64,41 +66,41 @@ const RoadmapPreviewPage = () => {
     );
   }
 
-  const confirmRoadmap = () => {
-    const updated = {
-      ...roadmap,
-      confirmed: true,
-    };
-
-    roadmapService.saveRoadmap(updated);
-    setRoadmap(updated);
-
-    setShowEdit(false);
-    setEditMessage("");
+  const confirmRoadmap = async () => {
+    setSaving(true);
+    try {
+      const updated = await roadmapService.confirmRoadmap(roadmap.id);
+      setRoadmap(updated);
+      setShowEdit(false);
+      setEditMessage("");
+    } catch (cause) {
+      setEditMessage(cause instanceof Error ? cause.message : "Could not confirm roadmap.");
+    } finally {
+      setSaving(false);
+    }
   };
 
-  const submitSuggestion = () => {
+  const submitSuggestion = async () => {
     if (!suggestion.trim()) return;
-
-    const updated = {
-      ...roadmap,
-      confirmed: false,
-      editNote: suggestion,
-    };
-
-    roadmapService.saveRoadmap(updated);
-    setRoadmap(updated);
-
+    setSaving(true);
     setEditMessage(
-      "Suggestion saved. In the final version the AI will regenerate the roadmap based on this feedback."
+      "Qwen is retrieving relevant DSA material and revising your roadmap. The first request can take a few minutes."
     );
-
-    setSuggestion("");
+    try {
+      const updated = await roadmapService.suggestEdit(roadmap.id, suggestion);
+      setRoadmap(updated);
+      setEditMessage("Roadmap regenerated from your feedback.");
+      setSuggestion("");
+    } catch (cause) {
+      setEditMessage(cause instanceof Error ? cause.message : "Could not revise roadmap.");
+    } finally {
+      setSaving(false);
+    }
   };
 
   const completedCount =
     roadmap.topics.filter((topic) =>
-      completedTopics.includes(topic.id)
+      topic.completed || completedTopics.includes(String(topic.id))
     ).length;
 
   const progress = Math.round(
@@ -157,6 +159,14 @@ const RoadmapPreviewPage = () => {
             />
           </div>
 
+          {roadmap.generationSource && (
+            <p className="roadmap-edit-message">
+              Generated with {roadmap.generationSource === "qwen-rag"
+                ? "Qwen + semantic RAG"
+                : "the curated fallback plan"}.
+            </p>
+          )}
+
           {!roadmap.confirmed && (
             <section className="roadmap-decision-card">
               <div>
@@ -186,9 +196,10 @@ const RoadmapPreviewPage = () => {
                 <button
                   className="primary-button"
                   onClick={confirmRoadmap}
+                  disabled={saving}
                 >
                   <Check size={17} />
-                  Confirm Roadmap
+                  {saving ? "Please Wait..." : "Confirm Roadmap"}
                 </button>
               </div>
 
@@ -207,8 +218,9 @@ const RoadmapPreviewPage = () => {
                   <button
                     className="primary-button"
                     onClick={submitSuggestion}
+                    disabled={saving}
                   >
-                    Submit Suggestion
+                    {saving ? "Applying AI Edit..." : "Submit Suggestion"}
                   </button>
                 </div>
               )}
@@ -241,9 +253,7 @@ const RoadmapPreviewPage = () => {
             {roadmap.topics.map(
               (topic, index) => {
                 const completed =
-                  completedTopics.includes(
-                    topic.id
-                  );
+                  Boolean(topic.completed) || completedTopics.includes(String(topic.id));
 
                 return (
                   <motion.article

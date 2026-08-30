@@ -23,6 +23,7 @@ backend/.env
 # =========================
 backend/chroma_db/
 backend/vector_store/
+backend/data/vector_db/
 
 backend/data/raw/*
 backend/data/processed/*

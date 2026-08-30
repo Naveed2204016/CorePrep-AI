@@ -33,7 +33,7 @@ const RoadmapCreatePage = () => {
   const [error, setError] = useState("");
   const [generating, setGenerating] = useState(false);
 
-  const timelineOptions = mode === "topic" ? [4, 6, 8, 10, 12] : [6, 8, 10, 12];
+  const timelineOptions = mode === "topic" ? [4, 6, 8, 10] : [6, 8, 10, 12];
 
   const selectMode = (newMode: RoadmapMode) => {
     setMode(newMode);
@@ -48,6 +48,10 @@ const RoadmapCreatePage = () => {
       setError("Please upload the job description in PDF format.");
       return;
     }
+    if (file.size > 5 * 1024 * 1024) {
+      setError("The job description PDF must be 5 MB or smaller.");
+      return;
+    }
     setError("");
     setJobFile(file);
   };
@@ -59,14 +63,20 @@ const RoadmapCreatePage = () => {
     }
     setGenerating(true);
     setError("");
-    await roadmapService.generateRoadmap({
-      mode,
-      weeks,
-      topic: mode === "topic" ? topic : undefined,
-      jobFileName: mode === "job" ? jobFile?.name : undefined,
-    });
-    setGenerating(false);
-    navigate("/roadmap/current");
+    try {
+      await roadmapService.generateRoadmap({
+        mode,
+        weeks,
+        topic: mode === "topic" ? topic : undefined,
+        jobFileName: mode === "job" ? jobFile?.name : undefined,
+        jobFile: mode === "job" ? jobFile ?? undefined : undefined,
+      });
+      navigate("/roadmap/current");
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "Roadmap generation failed.");
+    } finally {
+      setGenerating(false);
+    }
   };
 
   return (
@@ -97,12 +107,14 @@ const RoadmapCreatePage = () => {
             {mode === "topic" ? (
               <>
                 <div className="roadmap-builder-heading"><Map size={21} /><div><h2>Select Your Topic</h2><p>Choose the subject you want to prepare.</p></div></div>
-                <div className="roadmap-topic-grid">{SUPPORTED_TOPICS.map((item) => <button key={item} className={topic === item ? "roadmap-topic-option selected" : "roadmap-topic-option"} onClick={() => setTopic(item)}>{item}{topic === item && <Check size={14} />}</button>)}</div>
+                <div className="roadmap-topic-grid">{SUPPORTED_TOPICS.map((item) => {
+                  return <button key={item} className={topic === item ? "roadmap-topic-option selected" : "roadmap-topic-option"} onClick={() => setTopic(item)}>{item}{topic === item && <Check size={14} />}</button>;
+                })}</div>
               </>
             ) : (
               <>
                 <div className="roadmap-builder-heading"><FileText size={21} /><div><h2>Upload Job Description</h2><p>Upload the target role in PDF format.</p></div></div>
-                <label className="roadmap-job-upload"><input type="file" accept=".pdf,application/pdf" hidden onChange={handleJobFile} /><UploadCloud size={29} />{jobFile ? <><strong>{jobFile.name}</strong><span>Click to choose another file</span></> : <><strong>Choose job description PDF</strong><span>The AI skill extraction will be connected later.</span></>}</label>
+                <label className="roadmap-job-upload"><input type="file" accept=".pdf,application/pdf" hidden onChange={handleJobFile} /><UploadCloud size={29} />{jobFile ? <><strong>{jobFile.name}</strong><span>Click to choose another file</span></> : <><strong>Choose job description PDF</strong><span>One page, text-based PDF, up to 5 MB.</span></>}</label>
               </>
             )}
             <div className="roadmap-timeline-section">

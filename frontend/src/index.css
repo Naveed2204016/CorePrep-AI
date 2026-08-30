@@ -3850,6 +3850,26 @@ button {
   font-size: 12px;
 }
 
+.result-source {
+  width: fit-content;
+  margin-top: 12px;
+  padding: 6px 10px;
+  color: #86efac;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: 999px;
+  background: rgba(22, 101, 52, 0.14);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.result-source.fallback {
+  color: #fcd34d;
+  border-color: rgba(251, 191, 36, 0.35);
+  background: rgba(146, 64, 14, 0.14);
+}
+
 .result-score {
   width: 105px;
   height: 105px;
@@ -4163,6 +4183,46 @@ button {
   gap: 15px;
 
   text-align: center;
+}
+
+.assessment-evaluation-loading {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 28px;
+  text-align: center;
+  background: radial-gradient(circle at center, rgba(124, 58, 237, 0.14), transparent 45%), #070b12;
+}
+
+.assessment-evaluation-loading svg {
+  color: #a78bfa;
+  animation: assessment-spin 1s linear infinite;
+}
+
+.assessment-evaluation-loading span {
+  color: #a78bfa;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.assessment-evaluation-loading h1 {
+  margin: 0;
+  font-size: clamp(28px, 5vw, 48px);
+}
+
+.assessment-evaluation-loading p {
+  max-width: 600px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+@keyframes assessment-spin {
+  to { transform: rotate(360deg); }
 }
 
 .roadmap-empty-page svg {
@@ -4906,7 +4966,15 @@ button {
   font-size: 12px;
 }
 
+.profile-roadmap-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .profile-roadmap-item {
+  flex: 1;
+  min-width: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -4919,6 +4987,31 @@ button {
 
 .profile-roadmap-item:hover {
   border-color: rgba(139, 92, 246, 0.45);
+}
+
+.profile-roadmap-delete {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fca5a5;
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  border-radius: 9px;
+  background: rgba(127, 29, 29, 0.12);
+  transition: 0.2s;
+}
+
+.profile-roadmap-delete:hover:not(:disabled) {
+  color: white;
+  border-color: rgba(248, 113, 113, 0.75);
+  background: rgba(127, 29, 29, 0.3);
+}
+
+.profile-roadmap-delete:disabled {
+  cursor: wait;
+  opacity: 0.45;
 }
 
 .profile-roadmap-item strong,
