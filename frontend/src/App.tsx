@@ -9,6 +9,8 @@ import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 import CompanyPrepPage from "./pages/CompanyPrepPage";
 import CompanyExamSetupPage from "./pages/CompanyExamSetupPage";
+import CompanyExamPage from "./pages/CompanyExamPage";
+import CompanyExamResultPage from "./pages/CompanyExamResultPage";
 import CVReviewPage from "./pages/CVReviewPage";
 import RoadmapCreatePage from "./pages/RoadmapCreatePage";
 import RoadmapPreviewPage from "./pages/RoadmapPreviewPage";
@@ -42,6 +44,22 @@ function App() {
           element={
             <ProtectedRoute>
               <CompanyPrepPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/company-prep/:companySlug/result"
+          element={
+            <ProtectedRoute>
+              <CompanyExamResultPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/company-prep/:companySlug/exam"
+          element={
+            <ProtectedRoute>
+              <CompanyExamPage />
             </ProtectedRoute>
           }
         />

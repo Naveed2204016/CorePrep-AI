@@ -6,9 +6,10 @@ from app.db.database import Base, engine
 from app.api.v1.auth import router as auth_router
 from app.api.v1.roadmaps import router as roadmaps_router
 from app.api.v1.assessments import router as assessments_router
+from app.api.v1.company_prep import router as company_prep_router
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
-from app.models import roadmap
+from app.models import roadmap, company_prep
 
 
 Base.metadata.create_all(
@@ -39,6 +40,7 @@ app.add_middleware(
 app.include_router(auth_router)
 app.include_router(roadmaps_router)
 app.include_router(assessments_router)
+app.include_router(company_prep_router)
 
 
 @app.get("/")

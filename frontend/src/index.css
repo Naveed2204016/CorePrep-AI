@@ -3712,6 +3712,36 @@ button {
   line-height: 1.5;
 }
 
+.company-question-text {
+  white-space: pre-line;
+}
+
+.company-exam-banner {
+  margin-top: 18px;
+}
+
+.company-exam-banner svg {
+  color: #a78bfa;
+}
+
+.company-exam-spinner {
+  animation: assessment-spin 1s linear infinite;
+}
+
+.exam-option-card:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+.company-exam-error {
+  color: #fca5a5;
+  border-color: rgba(248, 113, 113, 0.3);
+}
+
+.company-exam-error svg {
+  color: #f87171;
+}
+
 .exam-options {
   display: grid;
 
