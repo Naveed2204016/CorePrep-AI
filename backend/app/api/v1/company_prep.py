@@ -1,6 +1,7 @@
 from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.core.security import get_current_user
@@ -66,9 +67,7 @@ async def create_company_exam(
         raise HTTPException(status_code=404, detail="Company not found")
     try:
         available = await get_company_prep_service().questions(company_slug)
-        generated_questions = await get_company_prep_service().create_exam(
-            company_slug, request.mode
-        )
+        generated_questions = await get_company_prep_service().create_exam(company_slug)
     except CompanyQuestionSourceError as exc:
         raise HTTPException(
             status_code=502,
@@ -141,7 +140,7 @@ def _stored_result(db: Session, attempt: CompanyExamAttempt) -> dict[str, Any]:
         "correctCount": sum(item["status"] == "correct" for item in items),
         "partialCount": sum(item["status"] == "partially_correct" for item in items),
         "totalQuestions": len(items),
-        "evaluationSource": "groq",
+        "evaluationSource": "ai",
         "items": items,
     }
 
@@ -179,6 +178,8 @@ async def submit_company_exam(
         .all()
     )
     submitted = {item.question_id: item.answer.strip() for item in request.answers}
+    if len(submitted) != len(request.answers):
+        raise HTTPException(status_code=400, detail="Each question may be answered only once")
     valid_ids = {item.id for item in questions}
     if any(question_id not in valid_ids for question_id in submitted):
         raise HTTPException(status_code=400, detail="An answer contains an invalid question ID")
@@ -220,24 +221,39 @@ async def submit_company_exam(
         user_id=current_user["id"],
         score=average * 10,
     )
-    db.add(attempt)
-    db.flush()
-    by_id = {item.question_id: item for item in evaluations}
-    for question in questions:
-        evaluation = by_id[question.id]
-        db.add(CompanyExamAnswer(
-            attempt_id=attempt.id,
-            question_id=question.id,
-            user_answer=submitted.get(question.id, ""),
-            score=evaluation.score,
-            status=evaluation.status,
-            feedback=evaluation.feedback,
-            suggested_answer=evaluation.suggested_answer,
-            is_correct=evaluation.status == "correct",
-        ))
     try:
+        db.add(attempt)
+        db.flush()
+        by_id = {item.question_id: item for item in evaluations}
+        for question in questions:
+            evaluation = by_id[question.id]
+            db.add(CompanyExamAnswer(
+                attempt_id=attempt.id,
+                question_id=question.id,
+                user_answer=submitted.get(question.id, ""),
+                score=evaluation.score,
+                status=evaluation.status,
+                feedback=evaluation.feedback,
+                suggested_answer=evaluation.suggested_answer,
+                is_correct=evaluation.status == "correct",
+            ))
         db.commit()
         db.refresh(attempt)
+    except IntegrityError:
+        # The database constraint is the final guard when two requests finish
+        # evaluation at the same time. Return the transaction that won the race.
+        db.rollback()
+        previous = (
+            db.query(CompanyExamAttempt)
+            .filter(
+                CompanyExamAttempt.exam_id == exam.id,
+                CompanyExamAttempt.user_id == current_user["id"],
+            )
+            .first()
+        )
+        if previous is None:
+            raise
+        return _stored_result(db, previous)
     except Exception:
         db.rollback()
         raise

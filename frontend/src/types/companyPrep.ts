@@ -1,4 +1,4 @@
-export type CompanyExamMode = "20" | "40" | "all";
+export type CompanyExamMode = "20";
 
 export interface CompanyExamQuestion {
   id: number;
@@ -36,6 +36,6 @@ export interface CompanyExamResult {
   correctCount: number;
   partialCount: number;
   totalQuestions: number;
-  evaluationSource: "groq";
+  evaluationSource: "ai";
   items: CompanyExamResultItem[];
 }

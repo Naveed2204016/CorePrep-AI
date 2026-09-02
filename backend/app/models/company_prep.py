@@ -1,6 +1,16 @@
 from datetime import datetime
 
-from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, String, Text
+from sqlalchemy import (
+    Boolean,
+    Column,
+    DateTime,
+    Float,
+    ForeignKey,
+    Integer,
+    String,
+    Text,
+    UniqueConstraint,
+)
 from sqlalchemy.orm import relationship
 
 from app.db.database import Base
@@ -25,6 +35,9 @@ class CompanyExam(Base):
 
 class CompanyExamQuestion(Base):
     __tablename__ = "company_exam_questions"
+    __table_args__ = (
+        UniqueConstraint("exam_id", "position", name="uq_company_exam_question_position"),
+    )
 
     id = Column(Integer, primary_key=True)
     exam_id = Column(Integer, ForeignKey("company_exams.id"), nullable=False, index=True)
@@ -40,6 +53,9 @@ class CompanyExamQuestion(Base):
 
 class CompanyExamAttempt(Base):
     __tablename__ = "company_exam_attempts"
+    __table_args__ = (
+        UniqueConstraint("exam_id", "user_id", name="uq_company_exam_attempt_user"),
+    )
 
     id = Column(Integer, primary_key=True)
     exam_id = Column(Integer, ForeignKey("company_exams.id"), nullable=False, index=True)
@@ -55,6 +71,11 @@ class CompanyExamAttempt(Base):
 
 class CompanyExamAnswer(Base):
     __tablename__ = "company_exam_answers"
+    __table_args__ = (
+        UniqueConstraint(
+            "attempt_id", "question_id", name="uq_company_exam_answer_question"
+        ),
+    )
 
     id = Column(Integer, primary_key=True)
     attempt_id = Column(

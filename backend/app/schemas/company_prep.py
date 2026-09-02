@@ -4,7 +4,8 @@ from pydantic import BaseModel
 
 
 class CompanyExamCreateRequest(BaseModel):
-    mode: Literal["20", "40", "all"]
+    # Company practice currently has one intentionally fixed-size flow.
+    mode: Literal["20"] = "20"
 
 
 class CompanyAnswerSubmission(BaseModel):

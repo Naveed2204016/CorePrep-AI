@@ -42,7 +42,9 @@ const CompanyExamResultPage = () => {
               <span>INTERVIEW PRACTICE COMPLETE</span>
               <h1>{exam.company.name}</h1>
               <p>Review your score, feedback and suggested answers.</p>
-              <div className="result-source">Groq semantic evaluation</div>
+              <div className="result-source">
+                AI semantic evaluation
+              </div>
             </div>
             <div className={result.score >= 60 ? "result-score passed" : "result-score failed"}>
               <strong>{result.score}%</strong>

@@ -210,7 +210,7 @@ class CompanyPrepService:
             self._cache[slug] = (time.monotonic(), documents)
             return list(documents)
 
-    async def create_exam(self, slug: str, mode: str = "20") -> list[dict[str, str]]:
+    async def create_exam(self, slug: str) -> list[dict[str, str]]:
         questions = await self.questions(slug)
         selected = list(questions[:20])
         existing = {item["question"].strip().casefold() for item in selected}
