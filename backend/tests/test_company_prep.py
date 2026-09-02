@@ -1,4 +1,8 @@
-from app.services.company_prep_service import parse_company_questions
+from app.services.company_prep_service import (
+    improve_incomplete_questions,
+    is_context_dependent_question,
+    parse_company_questions,
+)
 
 
 SAMPLE = """
@@ -39,3 +43,29 @@ def test_parse_company_questions_produces_stable_ids():
     second = parse_company_questions(SAMPLE, "example.md")
 
     assert [item["id"] for item in first] == [item["id"] for item in second]
+
+
+def test_incomplete_appscode_question_is_made_standalone():
+    questions = [{
+        "id": "one",
+        "question": "A dynamic programming problem.(Similar to 0/1 knapsack)",
+        "section": "Written Test",
+        "sourcePath": "appscode.md",
+    }]
+
+    improved = improve_incomplete_questions("appscode", questions)
+
+    assert "given N items" in improved[0]["question"]
+    assert "maximum total value" in improved[0]["question"]
+
+
+def test_missing_code_or_diagram_context_is_rejected():
+    assert is_context_dependent_question(
+        "What will be the output of the following code?"
+    )
+    assert is_context_dependent_question(
+        "Given a graph in figure, find the shortest path."
+    )
+    assert not is_context_dependent_question(
+        "Explain the difference between a process and a thread."
+    )

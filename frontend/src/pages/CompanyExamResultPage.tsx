@@ -70,12 +70,26 @@ const CompanyExamResultPage = () => {
                 const partial = item.status === "partially_correct";
                 return (
                   <article
-                    className={strong ? "answer-review-card correct" : "answer-review-card incorrect"}
+                    className={
+                      strong
+                        ? "answer-review-card correct"
+                        : partial
+                          ? "answer-review-card partial"
+                          : "answer-review-card incorrect"
+                    }
                     key={item.questionId}
                   >
                     <div className="answer-review-top">
                       <span>Question {index + 1} · {item.score}/10</span>
-                      <div className={strong ? "answer-status correct" : "answer-status incorrect"}>
+                      <div
+                        className={
+                          strong
+                            ? "answer-status correct"
+                            : partial
+                              ? "answer-status partial"
+                              : "answer-status incorrect"
+                        }
+                      >
                         {strong ? <CheckCircle2 size={14} /> : partial ? <CircleAlert size={14} /> : <XCircle size={14} />}
                         {strong ? "Correct" : partial ? "Partially correct" : "Incorrect"}
                       </div>

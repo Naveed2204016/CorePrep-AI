@@ -4215,6 +4215,16 @@ button {
   border-left: 3px solid rgba(248, 113, 113, 0.6);
 }
 
+.answer-review-card.partial {
+  border-color: rgba(251, 191, 36, 0.22);
+  border-left: 3px solid rgba(251, 191, 36, 0.75);
+  background: linear-gradient(
+    110deg,
+    rgba(251, 191, 36, 0.045),
+    var(--card) 34%
+  );
+}
+
 .answer-review-top {
   display: flex;
   justify-content: space-between;
@@ -4241,6 +4251,10 @@ button {
 
 .answer-status.incorrect {
   color: #fca5a5;
+}
+
+.answer-status.partial {
+  color: #fbbf24;
 }
 
 .answer-review-card h3 {
