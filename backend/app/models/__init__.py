@@ -4,3 +4,6 @@ from app.models.roadmap import (
     Assessment, AssessmentQuestion, 
     UserAssessmentAttempt, UserAnswer
 )
+from app.models.company_prep import (
+    CompanyExam, CompanyExamQuestion, CompanyExamAttempt, CompanyExamAnswer
+)
