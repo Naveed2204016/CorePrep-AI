@@ -12,7 +12,9 @@ from functools import lru_cache
 from pathlib import Path
 
 DATA_ROOT = Path(__file__).resolve().parents[2] / "data"
-RAG_BACKEND = os.getenv("RAG_BACKEND", "vector").strip().lower()
+# Default to the low-memory backend so constrained deployments cannot
+# accidentally initialize the embedding runtime. Opt in to vector mode.
+RAG_BACKEND = os.getenv("RAG_BACKEND", "lexical").strip().lower()
 VECTOR_DB_PATH = Path(os.getenv("VECTOR_DB_PATH", "./data/vector_db")).resolve()
 COLLECTION_NAME = os.getenv("QDRANT_COLLECTION", "dsa_corpus")
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "BAAI/bge-small-en-v1.5")
