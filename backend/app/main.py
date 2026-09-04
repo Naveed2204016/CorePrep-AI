@@ -8,6 +8,7 @@ from app.api.v1.roadmaps import router as roadmaps_router
 from app.api.v1.assessments import router as assessments_router
 from app.api.v1.cv_reviews import router as cv_reviews_router
 from app.api.v1.company_prep import router as company_prep_router
+from app.api.v1.profile import router as profile_router
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 from app.models import roadmap, company_prep
@@ -43,6 +44,7 @@ app.include_router(roadmaps_router)
 app.include_router(assessments_router)
 app.include_router(cv_reviews_router)
 app.include_router(company_prep_router)
+app.include_router(profile_router)
 
 @app.get("/")
 def home():
