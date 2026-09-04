@@ -1,12 +1,32 @@
 import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, Check, LogOut, Map, Save, Trash2, UserRound } from "lucide-react";
+import {
+  AlertTriangle,
+  ArrowLeft,
+  BarChart3,
+  Check,
+  LogOut,
+  Map,
+  Save,
+  Trash2,
+  TrendingUp,
+  UserRound,
+} from "lucide-react";
 
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { authService } from "../services/authService";
 import { roadmapService } from "../services/roadmapService";
+import { profileService } from "../services/profileService";
+import type { PerformanceSummary, SubjectStatus } from "../types/profile";
+
+const statusLabel: Record<SubjectStatus, string> = {
+  weak: "Weak subject",
+  needs_attention: "Needs attention",
+  strong: "Strong",
+  not_enough_data: "More data needed",
+};
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -20,11 +40,23 @@ const ProfilePage = () => {
   const [error, setError] = useState("");
   const [deletingRoadmapId, setDeletingRoadmapId] = useState<string | number | null>(null);
   const [roadmapError, setRoadmapError] = useState("");
+  const [performance, setPerformance] = useState<PerformanceSummary | null>(null);
+  const [performanceError, setPerformanceError] = useState("");
+  const [performanceLoading, setPerformanceLoading] = useState(true);
 
   useEffect(() => {
     roadmapService.fetchRoadmaps().then(setRoadmaps).catch(() => {
       // Keep the last cached list when the API is temporarily unavailable.
     });
+  }, []);
+
+  useEffect(() => {
+    profileService.getPerformance()
+      .then(setPerformance)
+      .catch((cause) => setPerformanceError(
+        cause instanceof Error ? cause.message : "Performance data could not be loaded.",
+      ))
+      .finally(() => setPerformanceLoading(false));
   }, []);
 
   if (!user) {
@@ -141,6 +173,66 @@ const ProfilePage = () => {
               )}
             </section>
           </div>
+
+          <section className="profile-panel profile-performance-panel">
+            <div className="profile-panel-heading profile-performance-heading">
+              <div className="profile-panel-icon"><BarChart3 size={20} /></div>
+              <div>
+                <span>EXAM INSIGHTS</span>
+                <h2>Subject performance</h2>
+                <p>Your weakness score is calculated from incorrect answers across submitted roadmap exams.</p>
+              </div>
+              {performance && performance.total_answered > 0 && (
+                <div className="profile-accuracy-summary">
+                  <strong>{performance.overall_accuracy}%</strong>
+                  <span>overall accuracy</span>
+                </div>
+              )}
+            </div>
+
+            {performanceLoading ? (
+              <div className="profile-performance-state"><span className="cv-loader" />Loading exam insights...</div>
+            ) : performanceError ? (
+              <p className="profile-error">{performanceError}</p>
+            ) : !performance?.subjects.length ? (
+              <div className="profile-performance-empty">
+                <TrendingUp size={24} />
+                <div>
+                  <h3>No exam results yet</h3>
+                  <p>Complete roadmap assessments to discover your strong and weak subjects.</p>
+                </div>
+              </div>
+            ) : (
+              <>
+                {performance.weak_subjects.length > 0 && (
+                  <div className="profile-weak-alert">
+                    <AlertTriangle size={18} />
+                    <div>
+                      <strong>Focus recommended</strong>
+                      <span>{performance.weak_subjects.join(", ")} {performance.weak_subjects.length === 1 ? "is" : "are"} currently marked weak.</span>
+                    </div>
+                  </div>
+                )}
+                <div className="profile-performance-chart">
+                  {performance.subjects.map((item) => (
+                    <article className="profile-subject-row" key={item.subject}>
+                      <div className="profile-subject-label">
+                        <div><strong>{item.subject}</strong><span>{item.incorrect} incorrect of {item.answered} answered</span></div>
+                        <span className={`profile-status profile-status-${item.status}`}>{statusLabel[item.status]}</span>
+                      </div>
+                      <div className="profile-weakness-track" aria-label={`${item.subject} weakness score ${item.weakness_score}%`}>
+                        <div className={`profile-weakness-fill profile-fill-${item.status}`} style={{ width: `${item.weakness_score}%` }} />
+                      </div>
+                      <div className="profile-subject-scale"><span>0% weakness</span><strong>{item.weakness_score}%</strong><span>100% weakness</span></div>
+                    </article>
+                  ))}
+                </div>
+                <p className="profile-performance-note">
+                  A subject needs at least 3 answered questions before classification. Weak means 50% or more incorrect; needs attention means 30–49% incorrect.
+                </p>
+              </>
+            )}
+          </section>
 
           <button type="button" className="profile-signout" onClick={signOut}><LogOut size={16} />Sign Out</button>
         </div>
