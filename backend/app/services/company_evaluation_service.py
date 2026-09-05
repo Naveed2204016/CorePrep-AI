@@ -311,7 +311,7 @@ Rules:
                 raise
 
             # ---------------------------------------------
-            # Groq 429
+            # Provider rate limit (HTTP 429)
             #
             # Respect the provider supplied retry-after.
             # ---------------------------------------------
@@ -331,7 +331,7 @@ Rules:
             #
             # - network failure
             # - timeout
-            # - Groq 5xx
+            # - provider 5xx
             # - malformed response
             # - semantic output problem
             # ---------------------------------------------
@@ -417,7 +417,7 @@ Rules:
         # Keep batches sequential.
         #
         # Do not run them with asyncio.gather().
-        # Concurrent Groq calls would create rate-limit
+        # Concurrent provider calls would create rate-limit
         # bursts.
         for batch in batches:
 

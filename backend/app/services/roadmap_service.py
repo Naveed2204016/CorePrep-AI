@@ -208,7 +208,7 @@ CURATED CORPUS:
                 self._prepare_plan_data(data, curriculum)
             )
             self._align_focused_topics(plan, curriculum)
-            generation_source = "qwen-rag"
+            generation_source = "gemini-rag"
         except (ValidationError, ValueError, KeyError, OSError) as exc:
             logger.warning("Roadmap generation fell back to curated plan: %s", exc)
             plan = self._fallback_plan(subject, timeline_weeks)
@@ -271,7 +271,7 @@ CURATED RAG CORPUS:
             )
             plan = GeneratedMixedPlan.model_validate(data)
             self._validate_mixed_plan(plan, allowed)
-            generation_source = "qwen-rag"
+            generation_source = "gemini-rag"
         except Exception as exc:
             logger.warning("Mixed roadmap generation fell back to curated plan: %s", exc)
             plan = self._fallback_mixed_plan(canonical_subjects, timeline_weeks)
@@ -373,7 +373,7 @@ CORPUS EXCERPTS:
             )
             self._align_focused_topics(plan, curriculum)
             result = self._format_plan(plan, total_days, curriculum)
-            result["generation_source"] = "qwen-rag"
+            result["generation_source"] = "gemini-rag"
             return result
         except Exception as exc:
             logger.warning("Roadmap revision failed: %s", exc)
