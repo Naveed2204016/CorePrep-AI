@@ -419,12 +419,35 @@ Rules:
         # bursts.
         for batch in batches:
 
-            batch_results = (
-                await self._evaluate_batch_with_retry(
-                    company_name=company_name,
-                    payload=batch,
+            try:
+                batch_results = (
+                    await self._evaluate_batch_with_retry(
+                        company_name=company_name,
+                        payload=batch,
+                    )
                 )
-            )
+            except LLMRequestError:
+                # Authentication, permissions, and invalid request settings
+                # will not improve by splitting the same request.
+                raise
+            except Exception as batch_error:
+                # A model can occasionally produce valid structured output with
+                # missing, duplicated, or reordered IDs for a multi-item batch.
+                # Retry those questions individually instead of failing the
+                # learner's entire exam.
+                logger.warning(
+                    "Company evaluation batch failed; falling back to "
+                    "individual evaluation for %s questions: %s",
+                    len(batch),
+                    batch_error,
+                )
+                batch_results = []
+                for item in batch:
+                    individual = await self._evaluate_batch_with_retry(
+                        company_name=company_name,
+                        payload=[item],
+                    )
+                    batch_results.extend(individual)
 
             results.extend(
                 batch_results

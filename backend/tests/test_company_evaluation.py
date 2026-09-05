@@ -8,7 +8,7 @@ from app.services import company_evaluation_service as module
 
 class PartialBatchLLM:
     async def generate_json(self, **kwargs):
-        marker = "QUESTIONS AND ANSWERS:\n"
+        marker = "QUESTIONS_AND_ANSWERS:\n"
         payload_text = kwargs["user_prompt"].split(marker, 1)[1].split(
             "\n\nReturn exactly", 1
         )[0]
@@ -20,7 +20,6 @@ class PartialBatchLLM:
                 {
                     "question_id": item["question_id"],
                     "score": 9 if item["user_answer"] else 4,
-                    "status": "correct" if item["user_answer"] else "incorrect",
                     "feedback": "The response was evaluated against the expected concepts.",
                     "suggested_answer": "This is a complete technically correct suggested answer.",
                 }
