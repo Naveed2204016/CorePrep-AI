@@ -25,7 +25,7 @@ export interface GeneratedRoadmap {
   confirmed: boolean;
   editNote?: string;
   createdAt?: string;
-  generationSource?: "qwen-rag" | "fallback";
+  generationSource?: "gemini-rag" | "fallback";
 }
 
 export interface RoadmapInput {

@@ -161,8 +161,8 @@ const RoadmapPreviewPage = () => {
 
           {roadmap.generationSource && (
             <p className="roadmap-edit-message">
-              Generated with {roadmap.generationSource === "qwen-rag"
-                ? "Qwen + semantic RAG"
+              Generated with {roadmap.generationSource === "gemini-rag"
+                ? "Gemini + semantic RAG"
                 : "the curated fallback plan"}.
             </p>
           )}
