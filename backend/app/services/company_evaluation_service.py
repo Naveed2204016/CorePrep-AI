@@ -82,7 +82,7 @@ COMPANY_EVALUATION_BATCH_SIZE = max(
     int(
         os.getenv(
             "COMPANY_EVALUATION_BATCH_SIZE",
-            "5",
+            "20",
         )
     ),
 )
@@ -320,8 +320,10 @@ Rules:
                 last_error = exc
 
                 delay = max(
-                    1.0,
-                    exc.retry_after,
+                    2.0,
+                    # Provider reset times can be rounded down. A small grace
+                    # period avoids immediately hitting the same rate window.
+                    exc.retry_after + 1.0,
                 )
 
             # ---------------------------------------------
@@ -426,9 +428,11 @@ Rules:
                         payload=batch,
                     )
                 )
-            except LLMRequestError:
+            except (LLMRequestError, LLMRateLimitError):
                 # Authentication, permissions, and invalid request settings
-                # will not improve by splitting the same request.
+                # will not improve by splitting the same request. Rate limits
+                # must not be split either: doing so multiplies API calls and
+                # makes the provider limit worse.
                 raise
             except Exception as batch_error:
                 # A model can occasionally produce valid structured output with

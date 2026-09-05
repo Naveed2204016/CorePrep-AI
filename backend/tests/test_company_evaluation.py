@@ -4,6 +4,7 @@ import unittest
 from unittest.mock import patch
 
 from app.services import company_evaluation_service as module
+from app.core.llm_config import LLMRateLimitError
 
 
 class PartialBatchLLM:
@@ -39,7 +40,38 @@ class FailsOnceLLM(PartialBatchLLM):
         return await super().generate_json(**kwargs)
 
 
+class AlwaysRateLimitedLLM:
+    def __init__(self):
+        self.calls = 0
+
+    async def generate_json(self, **kwargs):
+        self.calls += 1
+        raise LLMRateLimitError("rate limited", retry_after=0)
+
+
 class CompanyEvaluationServiceTests(unittest.TestCase):
+    def test_rate_limit_does_not_multiply_requests(self):
+        provider = AlwaysRateLimitedLLM()
+        questions = [{
+            "question_id": question_id,
+            "question": f"Question {question_id}",
+            "reference_answer": f"Reference {question_id}",
+            "user_answer": "Learner answer",
+        } for question_id in range(1, 6)]
+
+        with (
+            patch.object(module, "get_llm", return_value=provider),
+            patch.object(module, "COMPANY_EVALUATION_MAX_RETRIES", 1),
+        ):
+            with self.assertRaises(LLMRateLimitError):
+                asyncio.run(
+                    module.CompanyEvaluationService().evaluate(
+                        company_name="Example", questions=questions
+                    )
+                )
+
+        self.assertEqual(provider.calls, 1)
+
     def test_retries_missing_items_and_returns_every_question(self):
         questions = [
             {
