@@ -1,17 +1,28 @@
 """RAG-grounded DSA roadmap generation and revision."""
 
+import asyncio
 import json
 import logging
+import os
 import re
 from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
-from app.core.llm_config import get_llm
+from app.core.llm_config import (
+    LLMRateLimitError,
+    LLMRequestError,
+    LLMTransientError,
+    get_llm,
+)
 from app.services.curriculum_registry import CURRICULA, TopicSpec, canonical_subject, subject_slug
 from app.services.rag_service import get_rag_service
 
 logger = logging.getLogger(__name__)
+
+ROADMAP_GENERATION_MAX_RETRIES = max(
+    1, int(os.getenv("ROADMAP_GENERATION_MAX_RETRIES", "3"))
+)
 
 
 class GeneratedTopic(BaseModel):
@@ -181,6 +192,36 @@ class RoadmapGenerationService:
     def __init__(self) -> None:
         self.rag = get_rag_service()
 
+    async def _generate_json_with_retry(self, **kwargs: Any) -> dict[str, Any]:
+        """Retry temporary provider failures before using a curated fallback."""
+        last_error: Exception | None = None
+        for attempt in range(ROADMAP_GENERATION_MAX_RETRIES):
+            try:
+                return await get_llm().generate_json(**kwargs)
+            except LLMRequestError:
+                raise
+            except LLMRateLimitError as exc:
+                last_error = exc
+                delay = max(2.0, exc.retry_after + 1.0)
+            except LLMTransientError as exc:
+                last_error = exc
+                delay = min(2 ** attempt, 10)
+
+            if attempt + 1 >= ROADMAP_GENERATION_MAX_RETRIES:
+                break
+            logger.warning(
+                "Roadmap AI request failed; retrying in %.2fs "
+                "(attempt %s/%s): %s",
+                delay,
+                attempt + 1,
+                ROADMAP_GENERATION_MAX_RETRIES,
+                last_error,
+            )
+            await asyncio.sleep(delay)
+
+        assert last_error is not None
+        raise last_error
+
     async def generate_roadmap(self, subject: str, timeline_weeks: int) -> dict[str, Any]:
         subject = self._validate_request(subject, timeline_weeks)
         curriculum = CURRICULA[subject]
@@ -195,7 +236,7 @@ Descriptions must name the concepts and practice patterns to cover. Do not inclu
 CURATED CORPUS:
 {self.rag.roadmap_context(subject, subject_slug(subject))}"""
         try:
-            data = await get_llm().generate_json(
+            data = await self._generate_json_with_retry(
                 system_prompt=(
                     "You are a rigorous computer-science curriculum designer. Return a practical, "
                     "progressive plan grounded exclusively in the supplied corpus."
@@ -260,7 +301,7 @@ Each topic object must include its exact canonical `subject` and `title`. Do not
 CURATED RAG CORPUS:
 {corpus}"""
         try:
-            data = await get_llm().generate_json(
+            data = await self._generate_json_with_retry(
                 system_prompt=(
                     "You are a rigorous CS interview curriculum designer. Select the highest-value "
                     "topics across multiple detected subjects and obey the allow-list exactly."
@@ -362,7 +403,7 @@ USER REQUEST:
 CORPUS EXCERPTS:
 {self.rag.roadmap_context(subject, subject_slug(subject), suggestion)}"""
         try:
-            data = await get_llm().generate_json(
+            data = await self._generate_json_with_retry(
                 system_prompt="You revise structured interview curricula while preserving constraints.",
                 user_prompt=prompt,
                 schema_name="revised_subject_roadmap",
