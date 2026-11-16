@@ -284,3 +284,199 @@ frontend/
 **RAG Layer:** Retrieves relevant learning materials from the Markdown knowledge base using lexical or optional vector-based retrieval.
 
 **Service Layer:** Contains the main business logic for roadmap generation, assessment generation and evaluation, company examination, and CV review.
+
+---
+
+## Getting Started
+
+Follow these instructions to install and run CorePrep AI locally.
+
+### 1. Prerequisites
+
+Install the following software:
+
+- Python 3.10+
+- Node.js and npm
+- MySQL Server
+- Git
+
+For local LLM execution, install [Ollama](https://ollama.com/).
+
+Alternatively, you can use the Google Gemini API.
+
+### 2. Clone the Repository
+
+```bash
+git clone https://github.com/Naveed2204016/CorePrep-AI.git
+
+cd CorePrep-AI
+```
+
+### 3. Backend Setup
+
+Navigate to the backend directory:
+
+```powershell
+cd backend
+```
+
+Create a virtual environment:
+
+```powershell
+py -3.12 -m venv .venv
+```
+
+Activate it:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+Install dependencies:
+
+```powershell
+python -m pip install --upgrade pip
+
+pip install -r requirements.txt
+```
+
+Create the environment file:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+### 4. Database Configuration
+
+Start your MySQL server and create the database:
+
+```sql
+CREATE DATABASE coreprep_ai
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+```
+
+Configure the database connection in `backend/.env`:
+
+```env
+DATABASE_URL=mysql+pymysql://YOUR_USER:YOUR_PASSWORD@localhost:3306/coreprep_ai
+
+SECRET_KEY=your_long_random_secret_key
+```
+
+Replace the database credentials with your actual MySQL credentials.
+
+The backend initializes its SQLAlchemy database tables when the application starts.
+
+### 5. Configure the AI Provider
+
+CorePrep AI supports Google Gemini and Ollama.
+
+**Option A: Google Gemini**
+
+```env
+LLM_PROVIDER=gemini
+
+GEMINI_BASE_URL=https://generativelanguage.googleapis.com/v1beta
+GEMINI_API_KEY=your_gemini_api_key
+GEMINI_MODEL=gemini-3.5-flash-lite
+```
+
+**Option B: Ollama**
+
+Download the supported model:
+
+```bash
+ollama pull qwen2.5:7b-instruct
+```
+
+Configure:
+
+```env
+LLM_PROVIDER=ollama
+
+OLLAMA_BASE_URL=http://localhost:11434
+OLLAMA_MODEL=qwen2.5:7b-instruct
+```
+
+### 6. Configure RAG
+
+The default RAG implementation uses BM25-based lexical retrieval.
+
+For optional vector-based retrieval, configure:
+
+```env
+RAG_BACKEND=vector
+
+VECTOR_DB_PATH=./data/vector_db
+QDRANT_COLLECTION=dsa_corpus
+EMBEDDING_MODEL=BAAI/bge-small-en-v1.5
+
+RAG_CHUNK_SIZE=1200
+RAG_CHUNK_OVERLAP=180
+```
+
+Qdrant uses local persistent storage, while FastEmbed generates the document embeddings.
+
+### 7. Configure Frontend
+
+Open another terminal and navigate to the frontend directory:
+
+```powershell
+cd frontend
+```
+
+Install dependencies:
+
+```powershell
+npm install
+```
+
+Create the environment file:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Configure `frontend/.env`:
+
+```env
+VITE_API_BASE_URL=http://localhost:8000/api/v1
+VITE_USE_MOCK_AUTH=false
+```
+
+### 8. Run the Backend
+
+From the backend directory:
+
+```powershell
+uvicorn app.main:app --reload --port 8000
+```
+
+Backend URLs:
+
+- API: http://localhost:8000
+- API Documentation: http://localhost:8000/docs
+- Health Check: http://localhost:8000/health
+
+### 9. Run the Frontend
+
+From the frontend directory:
+
+```powershell
+npm run dev
+```
+
+Frontend URL:
+
+http://localhost:5173
+
+### 10. Start Using CorePrep AI
+
+1. Open the frontend application.
+2. Create an account and sign in.
+3. Select a preparation feature.
+4. Generate a roadmap or start a company-specific examination.
+5. Complete assessments and review your performance.
+
+**Note:** The backend and frontend must run in separate terminals. MySQL and your selected AI provider must also be available.
