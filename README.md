@@ -480,3 +480,168 @@ http://localhost:5173
 5. Complete assessments and review your performance.
 
 **Note:** The backend and frontend must run in separate terminals. MySQL and your selected AI provider must also be available.
+
+---
+
+## AI Integration & Retrieval-Augmented Generation
+
+CorePrep AI integrates Large Language Models (LLMs) with Retrieval-Augmented Generation (RAG) to provide personalized learning roadmaps, intelligent assessments, company-specific examination evaluation, and CV feedback.
+
+### 1. Large Language Model Integration
+
+The backend supports two LLM providers.
+
+**Google Gemini**
+
+- Uses Google's hosted language model API.
+- Generates structured JSON responses.
+- Supports roadmap generation, assessment generation, answer evaluation, and CV review.
+
+**Ollama**
+
+- Runs language models locally.
+- Supports Qwen 2.5 7B Instruct.
+- Provides an alternative to hosted AI services.
+
+The LLM provider is selected using the `LLM_PROVIDER` environment variable.
+
+The backend uses a common JSON-generating interface to communicate with either provider.
+
+### 2. Retrieval-Augmented Generation (RAG)
+
+RAG retrieves relevant information from subject-specific learning materials and provides that information to the LLM as additional context.
+
+The retrieval process:
+
+1. Load Markdown learning documents from `backend/data/`.
+2. Divide documents into smaller chunks based on headings and chunk size.
+3. Retrieve relevant chunks based on the user's query.
+4. Provide the retrieved content to the LLM.
+5. Generate context-aware roadmaps or assessment questions.
+
+### 3. RAG Retrieval Methods
+
+CorePrep AI implements two retrieval approaches.
+
+**Lexical Retrieval (Default)**
+
+- Uses BM25-based relevance scoring.
+- Matches query terms against document content.
+- Considers section headings during retrieval.
+- Uses less memory and does not require an embedding model.
+
+**Vector-Based Retrieval (Optional)**
+
+- Uses FastEmbed to generate text embeddings.
+- Uses Qdrant for persistent vector storage.
+- Supports semantic similarity-based retrieval.
+- Uses the `BAAI/bge-small-en-v1.5` embedding model.
+
+The retrieval implementation can be selected using `RAG_BACKEND`.
+
+### 4. AI-Powered Roadmap Generation
+
+The roadmap generation service combines predefined curriculum information, retrieved learning materials, and LLM-generated content.
+
+**Topic-Based Roadmap**
+
+1. The user selects a computer science subject.
+2. The user selects a preparation timeline.
+3. The RAG service retrieves relevant learning materials.
+4. The LLM generates a structured roadmap.
+5. Pydantic validates the generated response.
+6. The backend assigns topic schedules and learning resources.
+7. The generated roadmap is saved as a draft.
+
+The supported topic-based timelines are 4, 6, 8, and 10 weeks.
+
+**Job-Description-Based Roadmap**
+
+1. The user uploads a one-page job-description PDF.
+2. PyPDF extracts the document text.
+3. The system detects relevant computer science subjects using predefined keyword patterns.
+4. The RAG service retrieves subject-specific information.
+5. The LLM generates a mixed preparation roadmap.
+6. The backend validates and stores the generated roadmap.
+
+The uploaded PDF must be 5 MB or smaller.
+
+Supported job-roadmap timelines are 6, 8, 10, and 12 weeks.
+
+### 5. AI-Powered Assessment Generation and Evaluation
+
+The assessment service generates questions based on the selected roadmap topic.
+
+**Question Generation**
+
+- Generates multiple-choice questions (MCQs).
+- Generates short-answer questions.
+- Uses retrieved learning materials as context.
+- Validates the generated questions using structured schemas.
+- Ensures each MCQ has four options and one correct answer.
+
+**Answer Evaluation**
+
+- Evaluates submitted answers.
+- Checks MCQ correctness against the stored correct option.
+- Uses semantic evaluation for short answers.
+- Generates explanations and revision areas.
+- Uses deterministic fallback evaluation when AI evaluation fails.
+
+A score of 70% or above is considered a passing result.
+
+### 6. Company-Specific Interview Preparation
+
+The company preparation service provides interview practice for 33 configured companies.
+
+The question bank is retrieved from the public repository:
+
+https://github.com/TamimEhsan/interview-questions-bangladesh
+
+The system creates a fixed 20-question practice examination using available company questions and supplemental questions.
+
+The company evaluation service:
+
+- Evaluates answers using an LLM.
+- Assigns scores from 0 to 10.
+- Classifies answers as correct, partially correct, or incorrect.
+- Provides individual feedback.
+- Generates suggested answers.
+- Uses sequential batches, retry handling, and evaluation timeouts.
+
+### 7. AI-Powered CV Review
+
+The CV review service analyzes uploaded PDF resumes.
+
+The process:
+
+1. Validate the uploaded PDF.
+2. Extract text using PyPDF.
+3. Send the extracted content to the configured LLM.
+4. Generate structured feedback.
+5. Return the review results to the frontend.
+
+The review evaluates:
+
+- Clarity and readability.
+- Experience and achievement impact.
+- Technical skills and relevance.
+- Projects and evidence of ability.
+- Structure, completeness, and ATS suitability.
+
+The service returns an overall score out of 100, strengths, improvement suggestions, missing sections, and relevant keywords.
+
+### 8. Performance Analysis
+
+The profile performance service analyzes submitted roadmap assessment answers.
+
+It calculates:
+
+- Total answered questions.
+- Correct and incorrect answers.
+- Overall accuracy.
+- Subject-wise accuracy.
+- Subject weakness scores.
+- Weak subjects requiring further preparation.
+
+This helps users identify areas that need improvement.
