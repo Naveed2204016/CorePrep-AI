@@ -1,33 +1,17 @@
 # CorePrep AI
 
-CorePrep AI is an AI-powered, mobile-responsive computer science
-and software engineering interview preparation platform.
+### AI-Powered Learning, Assessment & Interview Preparation Platform
 
-## Technology Stack
+CorePrep AI is an AI-powered preparation platform designed to help students and job seekers improve their technical knowledge, prepare for examinations, and get ready for technical interviews.
 
-### Frontend
-- React
-- TypeScript
-- Vite
-- Tailwind CSS
+The platform combines Artificial Intelligence with personalized learning approaches to provide a structured and interactive preparation experience.
 
-### Backend
-- FastAPI
-- MySQL
-- JWT Authentication
+Our goal is to make technical learning and career preparation more accessible, organized, and effective through AI-driven assistance.
 
-### AI
-- LangChain
-- Retrieval-Augmented Generation (RAG)
-- Chroma
-- Open-source LLMs
+### Project Overview
 
-### Deployment
-- Docker
-- GitHub Actions
+CorePrep AI brings multiple preparation tools together in one platform, helping users improve their technical skills, evaluate their knowledge, and prepare for professional opportunities.
 
-## Project Structure
+The platform focuses on intelligent learning assistance, personalized preparation, and AI-powered evaluation.
 
-- `frontend/` - React web application
-- `backend/` - FastAPI backend and AI services
-- `docs/` - Software engineering documentation
+**GitHub Repository:** https://github.com/Naveed2204016/CorePrep-AI
