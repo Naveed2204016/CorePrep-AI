@@ -136,3 +136,151 @@ The default retrieval implementation uses BM25-based lexical search. An optional
 - Vercel configuration for frontend routing.
 - Procfile for backend application startup.
 - Environment-based configuration for database, authentication, and AI providers.
+
+---
+
+## System Architecture
+
+CorePrep AI follows a client-server architecture in which the React frontend communicates with the FastAPI backend through RESTful APIs.
+
+### 1. Architecture Overview
+
+```text
+                   COREPREP AI
+                        |
+                 React Frontend
+                        |
+                 REST API Requests
+                        |
+                  FastAPI Backend
+                        |
+              +---------+---------+
+              |         |         |
+          Authentication  Services  Database
+              |         |         |
+          JWT / OAuth   AI / RAG   MySQL
+                        |
+               +--------+--------+
+               |                 |
+           LLM Provider      RAG Service
+               |                 |
+          Gemini/Ollama     Markdown Corpus
+                                 |
+                      +----------+----------+
+                      |                     |
+                  BM25 Search          Vector Search
+                                       (Optional)
+                                           |
+                                      Qdrant +
+                                      FastEmbed
+```
+
+### 2. How the System Works
+
+1. Users interact with the application through the React frontend.
+2. The frontend sends HTTP requests to the FastAPI backend.
+3. FastAPI handles authentication, request validation, and application logic.
+4. SQLAlchemy communicates with MySQL to store and retrieve user and application data.
+5. AI services communicate with Gemini or Ollama to generate and evaluate learning content.
+6. The RAG service retrieves relevant information from subject-specific Markdown documents.
+7. Retrieved information is provided to the LLM when generating context-aware roadmaps and assessments.
+8. The backend validates and stores generated results and returns responses to the frontend.
+
+### 3. Backend Project Structure
+
+```text
+backend/
+│
+├── app/
+│   ├── api/
+│   │   └── v1/
+│   │       ├── auth.py
+│   │       ├── roadmaps.py
+│   │       ├── assessments.py
+│   │       ├── company_prep.py
+│   │       ├── cv_reviews.py
+│   │       └── profile.py
+│   │
+│   ├── core/
+│   │   ├── google_auth.py
+│   │   ├── llm_config.py
+│   │   └── security.py
+│   │
+│   ├── db/
+│   │   └── database.py
+│   │
+│   ├── models/
+│   │   ├── user.py
+│   │   ├── roadmap.py
+│   │   └── company_prep.py
+│   │
+│   ├── schemas/
+│   │
+│   ├── services/
+│   │   ├── rag_service.py
+│   │   ├── roadmap_service.py
+│   │   ├── assessment_service.py
+│   │   ├── company_prep_service.py
+│   │   ├── company_evaluation_service.py
+│   │   ├── cv_review_service.py
+│   │   └── curriculum_registry.py
+│   │
+│   └── main.py
+│
+├── data/
+├── migrations/
+├── scripts/
+├── tests/
+├── requirements.txt
+├── .env.example
+└── Procfile
+```
+
+### 4. Frontend Project Structure
+
+```text
+frontend/
+│
+├── public/
+│
+├── src/
+│   ├── assets/
+│   │
+│   ├── components/
+│   │   ├── auth/
+│   │   ├── layout/
+│   │   └── ui/
+│   │
+│   ├── features/
+│   │   └── company-prep/
+│   │       └── data/
+│   │
+│   ├── pages/
+│   │
+│   ├── services/
+│   │
+│   ├── types/
+│   │
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── index.css
+│
+├── package.json
+├── .env.example
+├── vite.config.ts
+└── vercel.json
+```
+
+### 5. Main Architectural Components
+
+**Frontend:** Handles user interaction, authentication screens, roadmap creation, assessments, company preparation, CV review, and profile interfaces.
+
+**API Layer:** FastAPI provides endpoints for authentication, roadmap management, assessments, company preparation, CV analysis, and profile performance.
+
+**Database Layer:** SQLAlchemy manages relational data stored in MySQL, including users, roadmaps, topics, resources, assessments, and examination results.
+
+**AI Layer:** The LLM configuration provides a common interface for generating structured responses using Gemini or Ollama.
+
+**RAG Layer:** Retrieves relevant learning materials from the Markdown knowledge base using lexical or optional vector-based retrieval.
+
+**Service Layer:** Contains the main business logic for roadmap generation, assessment generation and evaluation, company examination, and CV review.
