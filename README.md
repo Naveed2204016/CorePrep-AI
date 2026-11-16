@@ -645,3 +645,155 @@ It calculates:
 - Weak subjects requiring further preparation.
 
 This helps users identify areas that need improvement.
+
+---
+
+## API Documentation
+
+CorePrep AI provides RESTful APIs through FastAPI. The endpoints are organized into versioned modules under `/api/v1`.
+
+### 1. Authentication APIs
+
+| Method | Endpoint                       | Description                            |
+| ------ | ------------------------------ | -------------------------------------- |
+| POST   | `/api/v1/auth/signup`          | Register a new user                    |
+| POST   | `/api/v1/auth/login`           | Authenticate a user and generate a JWT |
+| GET    | `/api/v1/auth/google`          | Start Google OAuth authentication      |
+| GET    | `/api/v1/auth/google/callback` | Handle Google OAuth callback           |
+
+### 2. Roadmap APIs
+
+| Method | Endpoint                                     | Description                                   |
+| ------ | -------------------------------------------- | --------------------------------------------- |
+| POST   | `/api/v1/roadmaps/generate`                  | Generate a topic-based roadmap                |
+| POST   | `/api/v1/roadmaps/generate-from-job`         | Generate a roadmap from a job-description PDF |
+| GET    | `/api/v1/roadmaps`                           | Retrieve the user's confirmed roadmaps        |
+| GET    | `/api/v1/roadmaps/{roadmap_id}`              | Retrieve a specific roadmap                   |
+| DELETE | `/api/v1/roadmaps/{roadmap_id}`              | Delete a roadmap                              |
+| POST   | `/api/v1/roadmaps/{roadmap_id}/suggest-edit` | Suggest changes to a draft roadmap            |
+| POST   | `/api/v1/roadmaps/{roadmap_id}/confirm`      | Confirm and activate a roadmap                |
+
+### 3. Assessment APIs
+
+| Method | Endpoint                                     | Description                                |
+| ------ | -------------------------------------------- | ------------------------------------------ |
+| POST   | `/api/v1/assessments/generate`               | Generate an assessment for a roadmap topic |
+| POST   | `/api/v1/assessments/{assessment_id}/submit` | Submit answers and receive evaluation      |
+
+### 4. Company Preparation APIs
+
+| Method | Endpoint                                              | Description                             |
+| ------ | ----------------------------------------------------- | --------------------------------------- |
+| GET    | `/api/v1/company-prep/companies`                      | Retrieve available companies            |
+| GET    | `/api/v1/company-prep/companies/{company_slug}`       | Retrieve company information            |
+| POST   | `/api/v1/company-prep/companies/{company_slug}/exams` | Generate a company-specific examination |
+| POST   | `/api/v1/company-prep/exams/{exam_id}/submit`         | Submit and evaluate examination answers |
+
+### 5. CV Review APIs
+
+| Method | Endpoint                     | Description                           |
+| ------ | ---------------------------- | ------------------------------------- |
+| POST   | `/api/v1/cv-reviews/analyze` | Upload and analyze a CV in PDF format |
+
+### 6. Profile APIs
+
+| Method | Endpoint                      | Description                                              |
+| ------ | ----------------------------- | -------------------------------------------------------- |
+| GET    | `/api/v1/profile/performance` | Retrieve overall and subject-wise assessment performance |
+
+### 7. General Backend Endpoints
+
+| Method | Endpoint  | Description                                      |
+| ------ | --------- | ------------------------------------------------ |
+| GET    | `/`       | Check whether the backend application is running |
+| GET    | `/health` | Check backend health status                      |
+
+### Interactive API Documentation
+
+FastAPI automatically provides interactive API documentation.
+
+After starting the backend, visit:
+
+http://localhost:8000/docs
+
+Most application endpoints require JWT Bearer authentication.
+
+---
+
+## Development Commands
+
+### Frontend Commands
+
+Run these commands inside the `frontend` directory.
+
+| Command           | Description                          |
+| ----------------- | ------------------------------------ |
+| `npm install`     | Install frontend dependencies        |
+| `npm run dev`     | Start the development server         |
+| `npm run build`   | Type-check and build the application |
+| `npm run lint`    | Run Oxlint                           |
+| `npm run preview` | Preview the production build         |
+
+### Backend Commands
+
+Run these commands inside the `backend` directory.
+
+| Command                                     | Description                          |
+| ------------------------------------------- | ------------------------------------ |
+| `pip install -r requirements.txt`           | Install backend dependencies         |
+| `uvicorn app.main:app --reload --port 8000` | Start the FastAPI development server |
+
+---
+
+## Deployment Configuration
+
+CorePrep AI contains separate deployment configuration for its frontend and backend.
+
+### Frontend Deployment
+
+The frontend contains a `vercel.json` configuration file.
+
+It uses URL rewrites to direct application routes to `index.html`, supporting client-side React Router navigation.
+
+### Backend Deployment
+
+The backend contains a `Procfile` with the following startup command:
+
+```text
+web: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+```
+
+This allows the backend to start using the deployment platform's assigned port.
+
+### Environment Configuration
+
+The application uses environment variables to configure:
+
+- Database connectivity.
+- JWT authentication.
+- Google OAuth credentials.
+- Gemini or Ollama LLM providers.
+- RAG retrieval settings.
+- Frontend and backend URLs.
+- CORS configuration.
+
+Never upload private API keys, database passwords, or secret environment files to GitHub.
+
+---
+
+## Future Improvements
+
+Potential areas for further development include:
+
+- Expanding the learning knowledge base.
+- Adding more company-specific interview question banks.
+- Supporting additional assessment formats.
+- Improving personalized learning recommendations.
+- Enhancing performance analytics.
+- Adding automated deployment and testing workflows.
+
+---
+
+## Repository
+
+**GitHub:** https://github.com/Naveed2204016/CorePrep-AI
