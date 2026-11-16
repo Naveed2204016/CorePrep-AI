@@ -60,3 +60,79 @@ The platform focuses on intelligent learning assistance, personalized preparatio
 - Google OAuth authentication.
 - Access protected application pages.
 - Manage personal profile information.
+
+---
+
+## Technology Stack
+
+CorePrep AI is developed using modern frontend, backend, database, and artificial intelligence technologies to provide an integrated software engineering interview preparation platform.
+
+### 1. Frontend Technologies
+
+| Technology     | Purpose                                    |
+| -------------- | ------------------------------------------ |
+| React 19       | Building interactive user interfaces       |
+| TypeScript     | Type-safe frontend development             |
+| Vite           | Frontend development server and build tool |
+| React Router 7 | Managing application navigation and routes |
+| Tailwind CSS 4 | Styling and responsive UI development      |
+| Framer Motion  | Animations and UI transitions              |
+| Lucide React   | Icons and visual elements                  |
+| Axios          | Installed HTTP client dependency           |
+| Oxlint         | Code linting and quality checks            |
+
+### 2. Backend Technologies
+
+| Technology    | Purpose                                       |
+| ------------- | --------------------------------------------- |
+| Python        | Backend programming language                  |
+| FastAPI       | Building RESTful APIs                         |
+| Uvicorn       | Running the FastAPI application               |
+| SQLAlchemy    | Database ORM and query management             |
+| MySQL         | Relational database management                |
+| PyMySQL       | MySQL database connectivity                   |
+| Pydantic      | Request validation and structured data models |
+| HTTPX         | Asynchronous HTTP communication               |
+| Python-dotenv | Environment variable management               |
+
+### 3. Authentication and Security
+
+- JWT-based authentication using Python-JOSE.
+- Password hashing using Passlib and bcrypt.
+- Google OAuth authentication using Authlib.
+- Session management using Starlette SessionMiddleware.
+- Protected backend endpoints using Bearer token authentication.
+
+### 4. Artificial Intelligence
+
+| Technology           | Purpose                                      |
+| -------------------- | -------------------------------------------- |
+| Google Gemini API    | Hosted LLM integration                       |
+| Ollama               | Running language models locally              |
+| Qwen 2.5 7B Instruct | Supported local language model               |
+| Pydantic JSON Schema | Validating structured AI-generated responses |
+
+The application supports switching between Gemini and Ollama through environment configuration.
+
+### 5. Retrieval-Augmented Generation (RAG)
+
+| Technology | Purpose                                          |
+| ---------- | ------------------------------------------------ |
+| BM25       | Lexical retrieval of relevant learning materials |
+| Qdrant     | Optional persistent vector storage               |
+| FastEmbed  | Generating text embeddings                       |
+| Markdown   | Storing subject-specific learning materials      |
+
+The default retrieval implementation uses BM25-based lexical search. An optional vector-based implementation uses Qdrant and FastEmbed.
+
+### 6. Document Processing
+
+- PyPDF for extracting text from uploaded PDF documents.
+- PDF processing for job-description-based roadmap generation.
+- PDF processing for AI-assisted CV reviews.
+
+### 7. Development and Deployment Configuration
+
+- Vercel configuration for frontend routing.
+- Procfile for backend application startup.
+- Environment-based configuration for database, authentication, and AI providers.
