@@ -1,0 +1,469 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [6 0 R 8 0 R 10 0 R 12 0 R 14 0 R 16 0 R 18 0 R 20 0 R 22 0 R] /Count 9 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+5 0 obj
+<< /Length 3969 >>
+stream
+BT /F2 9 Tf 0.0 0.37 0.43 rg 1 0 0 1 48 800 Tm (COREPREP AI  /  TECHNICAL WALKTHROUGH) Tj ET
+BT /F2 23 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 766 Tm (RAG and the vector database) Tj ET
+BT /F1 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 745 Tm (Roadmap generation, task assessments, and answer evaluation) Tj ET
+0.0 0.55 0.59 RG 1.5 w 48 732 m 547 732 l S
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 710 Tm (RAG means Retrieval-Augmented Generation. CorePrep AI retrieves relevant passages from its own) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 696 Tm (Markdown knowledge base, adds them to a prompt, and asks a language model to produce) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 682 Tm (structured JSON. Python then validates and stores the result. The corpus is supplied at) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 668 Tm (inference time; this code does not fine-tune a model.) Tj ET
+0.93 0.97 0.98 rg 48 571 499 74 re f
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 60 627 Tm (What to say in your presentation) Tj ET
+BT /F1 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 60 611 Tm (Our vector implementation uses persistent local Qdrant, with BAAI/bge-small-en-v1.5) Tj ET
+BT /F1 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 60 598 Tm (embeddings created by FastEmbed. Roadmaps and assessments share the retriever. The) Tj ET
+BT /F1 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 60 585 Tm (configured generation provider is Gemini, using gemini-3.5-flash-lite.) Tj ET
+BT /F2 13 Tf 0.0 0.37 0.43 rg 1 0 0 1 48 547 Tm (Configuration: implemented versus active) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 524 Tm (The repository defaults RAG_BACKEND to lexical. backend/.env does not set RAG_BACKEND. Unless) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 510 Tm (the launch environment overrides it to vector, the service uses in-memory lexical retrieval) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 496 Tm (and creates no embeddings. An existing vector database does not prove that the running app) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 482 Tm (uses vector search.) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 459 Tm (backend/.env selects LLM_PROVIDER=gemini and GEMINI_MODEL=gemini-3.5-flash-lite. These are) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 445 Tm (configuration values observed in the project, not a verified live API call. The code also) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 431 Tm (supports Ollama; its default model is qwen2.5:7b-instruct. Process environment variables can) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 417 Tm (override dotenv values.) Tj ET
+0.94 0.97 0.99 rg 65 363 465 31 re f
+BT /F2 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 378 Tm (34 Markdown files / 12 subject folders) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 350 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 314 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 329 Tm (Shared chunk loader -> lexical ranking OR BGE embeddings + Qdrant) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 301 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 265 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 280 Tm (Relevant passages + instructions + request -> configured LLM) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 252 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 216 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 231 Tm (JSON validation + application rules -> relational storage -> learner UI) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 200 Tm (Evidence: backend/app/services/rag_service.py:17,134,231; backend/app/core/llm_config.py:12,272;) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 188 Tm (backend/.env \(non-secret settings only\). Review scope: source code and saved index metadata; no live model) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 176 Tm (or production database verification.) Tj ET
+BT /F1 8 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 31 Tm (Repository review: 09 September 2026  |  Paths are relative to project root) Tj ET
+BT /F2 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 532 31 Tm (1) Tj ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 5 0 R >>
+endobj
+7 0 obj
+<< /Length 3560 >>
+stream
+BT /F2 9 Tf 0.0 0.37 0.43 rg 1 0 0 1 48 800 Tm (COREPREP AI  /  TECHNICAL WALKTHROUGH) Tj ET
+BT /F2 23 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 766 Tm (Where the RAG corpus is saved) Tj ET
+BT /F1 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 745 Tm (Source documents are separate from embeddings and application records) Tj ET
+0.0 0.55 0.59 RG 1.5 w 48 732 m 547 732 l S
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 710 Tm (The loader reads backend/data/*/*.md: Markdown files exactly one folder below backend/data. It) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 696 Tm (reads local file contents; it does not crawl the resource URLs or index arbitrary uploaded) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 682 Tm (PDFs as part of this loader.) Tj ET
+BT /F2 13 Tf 0.0 0.37 0.43 rg 1 0 0 1 48 652 Tm (DSA: all 12 source files in backend/data/dsa/) Tj ET
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 629 Tm (00_curriculum_map.md) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 614 Tm (Prerequisite sequence, roadmap rules, and interview outcomes.) Tj ET
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 594 Tm (arrays.md) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 579 Tm (Operations, complexity, variants, common problems, and interview tips.) Tj ET
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 559 Tm (complexity_recursion.md) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 544 Tm (Big-O, supporting mathematics, recursion, backtracking, mistakes.) Tj ET
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 524 Tm (graphs.md) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 509 Tm (Representations, BFS/DFS, DAGs, union-find, weighted and grid algorithms.) Tj ET
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 489 Tm (greedy_dp.md) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 474 Tm (Greedy reasoning, DP states/transitions, patterns, and mistakes.) Tj ET
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 454 Tm (hashing_strings_patterns.md) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 439 Tm (Hashing, strings, two pointers, windows, prefix sums, intervals.) Tj ET
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 419 Tm (linkedlist.md) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 404 Tm (Node structure, operations, complexity, problems, and trade-offs.) Tj ET
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 384 Tm (practice_assessment.md) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 369 Tm (Practice progression, assessment dimensions, topic boundaries, revision.) Tj ET
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 349 Tm (sorting_searching.md) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 334 Tm (Sorting, binary search, divide-and-conquer, and pitfalls.) Tj ET
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 314 Tm (stacks_queues.md) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 299 Tm (Stacks, monotonic stacks, queues/deques, and design exercises.) Tj ET
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 279 Tm (trees.md) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 264 Tm (Tree terminology, traversals, variants, balance, and interview problems.) Tj ET
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 244 Tm (trees_heaps_tries.md) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 229 Tm (Binary trees, BSTs, tries, heaps, and priority queues.) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 209 Tm (Evidence: backend/app/services/rag_service.py:33 \(_load_chunks\); source files listed above.) Tj ET
+BT /F1 8 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 31 Tm (Repository review: 09 September 2026  |  Paths are relative to project root) Tj ET
+BT /F2 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 532 31 Tm (2) Tj ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 7 0 R >>
+endobj
+9 0 obj
+<< /Length 4114 >>
+stream
+BT /F2 9 Tf 0.0 0.37 0.43 rg 1 0 0 1 48 800 Tm (COREPREP AI  /  TECHNICAL WALKTHROUGH) Tj ET
+BT /F2 23 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 766 Tm (Other subjects and corpus contents) Tj ET
+BT /F1 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 745 Tm (22 files: the same two filenames in each of these 11 folders) Tj ET
+0.0 0.55 0.59 RG 1.5 w 48 732 m 547 732 l S
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 710 Tm (For EVERY folder below, the exact source paths are backend/data/<folder>/curriculum.md and) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 696 Tm (backend/data/<folder>/assessment_reference.md. Both files are available to both roadmap and) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 682 Tm (assessment retrieval; there are no separate task-specific vector collections.) Tj ET
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 659 Tm (backend/) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 644 Tm (Server fundamentals, REST, validation, auth, SQL, ORMs, caching, queues, deployment.) Tj ET
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 624 Tm (computer_networks/) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 609 Tm (OSI/TCP-IP, Ethernet, subnetting, routing, TCP/UDP, DNS, HTTP/TLS, security.) Tj ET
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 589 Tm (dbms/) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 574 Tm (Modeling, SQL, keys, normalization, indexes, transactions, isolation, query planning.) Tj ET
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 554 Tm (devops/) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 539 Tm (Linux, shell, Git, networking, containers, Kubernetes, IaC, CI/CD, SRE.) Tj ET
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 519 Tm (frontend/) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 504 Tm (HTML/accessibility, CSS, JS/TS, DOM, React, state, forms, testing, performance.) Tj ET
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 484 Tm (git_github/) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 469 Tm (Commits, branches, merge/rebase, remotes, PRs, recovery, internals, Actions.) Tj ET
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 449 Tm (machine_learning/) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 434 Tm (Data preparation, regression/classification, ensembles, evaluation, neural nets, MLOps.) Tj ET
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 414 Tm (oop/) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 399 Tm (Classes, encapsulation, inheritance, polymorphism, interfaces, design principles.) Tj ET
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 379 Tm (os/) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 364 Tm (Processes/threads, scheduling, IPC, synchronization, memory, files, containers.) Tj ET
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 344 Tm (software_testing/) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 329 Tm (Test planning/design, unit/integration/E2E, API/UI tests, performance, quality metrics.) Tj ET
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 309 Tm (system_design/) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 294 Tm (Capacity, APIs, load balancing, caches, replication, sharding, queues, consistency.) Tj ET
+BT /F2 13 Tf 0.0 0.37 0.43 rg 1 0 0 1 48 267 Tm (What the two document types contribute) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 244 Tm (curriculum.md outlines what to learn for each topic. assessment_reference.md supplies factual) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 230 Tm (distinctions, mechanisms, trade-offs, and misconceptions that support questions and grading.) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 216 Tm (For example, DBMS covers WHERE versus HAVING, B-tree indexes, ACID, and MVCC.) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 193 Tm (The Python curriculum_registry.py is a separate structured registry: canonical subject names/slugs, allowed) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 181 Tm (topic cards, weights, descriptions, and resource links. It is not itself loaded as Markdown corpus text.) Tj ET
+BT /F1 8 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 31 Tm (Repository review: 09 September 2026  |  Paths are relative to project root) Tj ET
+BT /F2 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 532 31 Tm (3) Tj ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 9 0 R >>
+endobj
+11 0 obj
+<< /Length 4276 >>
+stream
+BT /F2 9 Tf 0.0 0.37 0.43 rg 1 0 0 1 48 800 Tm (COREPREP AI  /  TECHNICAL WALKTHROUGH) Tj ET
+BT /F2 23 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 766 Tm (How chunking and indexing work) Tj ET
+BT /F1 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 745 Tm (Implementation: backend/app/services/rag_service.py) Tj ET
+0.0 0.55 0.59 RG 1.5 w 48 732 m 547 732 l S
+BT /F2 13 Tf 0.0 0.37 0.43 rg 1 0 0 1 48 703 Tm (1. Load and split text - _load_chunks\(\), line 33) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 680 Tm (Read sorted Markdown paths as UTF-8. Split at lines beginning with one to three # characters) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 666 Tm (followed by whitespace. Each section gets a heading. The filename becomes a document title,) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 652 Tm (with underscores replaced by spaces. The remaining section lines become the body; an empty) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 638 Tm (body falls back to the heading.) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 615 Tm (Each body window is at most 1,200 characters, not tokens. If a window is cut mid-section, the) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 601 Tm (code looks backward for a space in its second half. The next window starts at end minus 180) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 587 Tm (characters, preserving overlap. Windows stay within their section.) Tj ET
+0.93 0.97 0.98 rg 48 490 499 74 re f
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 60 546 Tm (Every embedded chunk includes context) Tj ET
+BT /F1 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 60 530 Tm (Document: <filename-derived title> Section: <heading> <body window>. The title/section) Tj ET
+BT /F1 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 60 517 Tm (prefix is added after splitting, so the final embedded text can exceed 1,200) Tj ET
+BT /F1 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 60 504 Tm (characters.) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 473 Tm (A deterministic UUIDv5 identifies each chunk, using the filename, section number, chunk) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 459 Tm (number, and text. source is a relative path such as dbms/assessment_reference.md; heading is) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 445 Tm (retained separately. Overlap reduces loss of context around long-section boundaries.) Tj ET
+BT /F2 13 Tf 0.0 0.37 0.43 rg 1 0 0 1 48 415 Tm (2. Embed and store - VectorRAGService, line 134) Tj ET
+0.94 0.97 0.99 rg 65 361 465 31 re f
+BT /F2 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 376 Tm (TextEmbedding\(model_name=BAAI/bge-small-en-v1.5\)) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 348 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 312 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 327 Tm (embedding.embed\(all chunk texts\) -> numeric document vectors) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 299 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 263 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 278 Tm (Create Qdrant collection with vector length and COSINE distance) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 250 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 214 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 229 Tm (Upsert: UUID + vector + payload {text, source, heading, subject}) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 198 Tm (The saved collection metadata records 384 dimensions. The code derives the vector size from) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 184 Tm (the first embedding, rather than hard-coding 384. The encoder represents text for retrieval;) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 170 Tm (Gemini/Ollama generates the final response.) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 147 Tm (Index freshness: _corpus_fingerprint\(\) hashes model name, chunk settings, relative paths, and document) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 135 Tm (bytes. _ensure_index\(\) reuses a matching manifest/collection; otherwise it deletes and rebuilds the) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 123 Tm (configured collection. It runs on vector initialization and before each vector retrieval.) Tj ET
+BT /F1 8 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 31 Tm (Repository review: 09 September 2026  |  Paths are relative to project root) Tj ET
+BT /F2 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 532 31 Tm (4) Tj ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 11 0 R >>
+endobj
+13 0 obj
+<< /Length 4318 >>
+stream
+BT /F2 9 Tf 0.0 0.37 0.43 rg 1 0 0 1 48 800 Tm (COREPREP AI  /  TECHNICAL WALKTHROUGH) Tj ET
+BT /F2 23 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 766 Tm (Qdrant storage and retrieval) Tj ET
+BT /F1 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 745 Tm (One shared collection, filtered by subject) Tj ET
+0.0 0.55 0.59 RG 1.5 w 48 732 m 547 732 l S
+BT /F2 13 Tf 0.0 0.37 0.43 rg 1 0 0 1 48 703 Tm (Where the vector database lives) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 680 Tm (QdrantClient\(path=...\) runs in persistent local mode. VECTOR_DB_PATH defaults to) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 666 Tm (./data/vector_db, resolved against the process working directory. Starting the backend from) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 652 Tm (backend/ points to backend/data/vector_db/. QDRANT_COLLECTION defaults to dsa_corpus, although) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 638 Tm (the index contains all subjects.) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 615 Tm (backend/data/vector_db/meta.json - collection settings: 384 dimensions, Cosine.) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 603 Tm (backend/data/vector_db/collection/dsa_corpus/storage.sqlite - local collection storage.) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 591 Tm (backend/data/vector_db/corpus_manifest.json - corpus fingerprint and saved count: 448 chunks.) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 571 Tm (The SQLite file is an internal storage artifact of local Qdrant. The application queries it) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 557 Tm (through QdrantClient. Roadmaps, questions, attempts, and answers are separately stored through) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 543 Tm (SQLAlchemy in the database selected by DATABASE_URL.) Tj ET
+BT /F2 13 Tf 0.0 0.37 0.43 rg 1 0 0 1 48 513 Tm (Online retrieval - VectorRAGService.retrieve\(\), line 202) Tj ET
+0.94 0.97 0.99 rg 65 459 465 31 re f
+BT /F2 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 474 Tm (Build a natural-language query and canonical subject slug) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 446 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 410 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 425 Tm (embedding.query_embed\(query\) -> query vector in the same embedding space) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 397 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 361 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 376 Tm (query_points\(\): cosine similarity + exact subject payload filter) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 348 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 312 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 327 Tm (Return top-k chunks with text, source, heading -> assemble SOURCE context) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 296 Tm (A DBMS request filters subject=dbms, preventing DSA passages from entering that search.) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 282 Tm (Roadmaps request up to 10 chunks per subject; assessments request up to 5. The generic) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 268 Tm (retrieve\(\) default is 8, but these callers override it. There is no explicit similarity cutoff) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 254 Tm (or reranker in this implementation.) Tj ET
+BT /F2 13 Tf 0.0 0.37 0.43 rg 1 0 0 1 48 224 Tm (Lexical mode is also RAG) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 201 Tm (LexicalRAGService loads the same chunks in memory. It filters by subject and ranks lowercase) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 187 Tm (alphanumeric terms using a BM25-style score, a heading-match bonus, and a small) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 173 Tm (assessment-file bonus. It uses no embedding model or vector database. The later prompt and) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 159 Tm (generation flow is the same.) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 136 Tm (Saved count is manifest evidence, not a freshly counted live collection. No vector rebuild or model download) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 124 Tm (was performed for this document.) Tj ET
+BT /F1 8 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 31 Tm (Repository review: 09 September 2026  |  Paths are relative to project root) Tj ET
+BT /F2 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 532 31 Tm (5) Tj ET
+endstream
+endobj
+14 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 13 0 R >>
+endobj
+15 0 obj
+<< /Length 4619 >>
+stream
+BT /F2 9 Tf 0.0 0.37 0.43 rg 1 0 0 1 48 800 Tm (COREPREP AI  /  TECHNICAL WALKTHROUGH) Tj ET
+BT /F2 23 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 766 Tm (Roadmap generation: full flow) Tj ET
+BT /F1 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 745 Tm (API: POST /api/v1/roadmaps/generate) Tj ET
+0.0 0.55 0.59 RG 1.5 w 48 732 m 547 732 l S
+0.94 0.97 0.99 rg 65 679 465 31 re f
+BT /F2 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 694 Tm (User selects subject and timeline -> roadmaps.py verifies the user) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 666 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 630 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 645 Tm (generate_roadmap\(\): canonicalize subject, validate 4/6/8/10 weeks) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 617 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 581 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 596 Tm (CURRICULA supplies required titles/order; roadmap_context\(\) retrieves top 10) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 568 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 532 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 547 Tm (Prompt = total days + exact topic list + rules + retrieved corpus) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 519 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 483 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 498 Tm (get_llm\(\).generate_json\(\) -> schema-constrained JSON plan) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 470 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 434 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 449 Tm (Pydantic validation -> align titles -> normalize days -> add curated resources) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 421 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 385 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 400 Tm (API stores Roadmap, RoadmapTopic, TopicResource -> serialized roadmap) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 369 Tm (The retrieval query asks for a progressive subject interview roadmap with focused topic cards) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 355 Tm (and topic-specific resources. The generation prompt requires supported concepts, exact) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 341 Tm (curriculum titles/order, and durations totaling weeks x 7. Retrieval finds reference material;) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 327 Tm (the LLM proposes descriptions and durations.) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 304 Tm (The service repairs some format drift, validates topic counts, assigns canonical titles by) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 290 Tm (position, and normalizes positive day allocations to the exact timeline. _resources_for\(\)) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 276 Tm (supplies curated blog/video links from code. This flow does not call resource_service.py to) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 262 Tm (generate links.) Tj ET
+BT /F2 13 Tf 0.0 0.37 0.43 rg 1 0 0 1 48 232 Tm (Edits, job roadmaps, and failures) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 209 Tm (suggest_edit\(\): retrieves with the user suggestion appended as focus, sends the current roadmap and edit) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 197 Tm (request, validates/formats the result, and raises an error if revision fails.) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 177 Tm (generate_job_roadmap\(\): detects supported subjects from job text using patterns, retrieves 10 chunks for) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 165 Tm (each detected subject, and asks for allowed titles across subjects \(at most 30 cards; 6/8/10/12 weeks\).) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 153 Tm (Validates coverage and removes invalid plans through fallback.) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 133 Tm (Generation retries temporary provider errors. If model generation or validation fails inside the protected) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 121 Tm (generation block, a curated registry-based plan is used. Retrieval for the prompt happens before that block,) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 109 Tm (so retrieval/index failures are not guaranteed to reach this fallback.) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 89 Tm (Evidence: backend/app/services/roadmap_service.py:195,225,275,384,430,468;) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 77 Tm (backend/app/api/v1/roadmaps.py:63,86,120,211.) Tj ET
+BT /F1 8 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 31 Tm (Repository review: 09 September 2026  |  Paths are relative to project root) Tj ET
+BT /F2 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 532 31 Tm (6) Tj ET
+endstream
+endobj
+16 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 15 0 R >>
+endobj
+17 0 obj
+<< /Length 3944 >>
+stream
+BT /F2 9 Tf 0.0 0.37 0.43 rg 1 0 0 1 48 800 Tm (COREPREP AI  /  TECHNICAL WALKTHROUGH) Tj ET
+BT /F2 23 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 766 Tm (Task assessment: create questions) Tj ET
+BT /F1 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 745 Tm (API: POST /api/v1/assessments/generate) Tj ET
+0.0 0.55 0.59 RG 1.5 w 48 732 m 547 732 l S
+0.94 0.97 0.99 rg 65 679 465 31 re f
+BT /F2 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 694 Tm (Roadmap topic + MCQ/short counts + duration -> API ownership checks) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 666 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 630 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 645 Tm (Resolve curriculum subject \(including topics in mixed job roadmaps\)) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 617 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 581 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 596 Tm (AssessmentService._context\(\): topic query -> same retriever, top 5 chunks) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 568 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 532 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 547 Tm (Prompt = topic + references + exact counts + question-authoring rules) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 519 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 483 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 498 Tm (Configured LLM, temperature 0.25 -> assessment JSON) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 470 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 434 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 449 Tm (Repair formatting, validate with Pydantic, verify requested counts) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 421 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 385 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 400 Tm (Store questions and answers; return questions/options without answer keys) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 369 Tm (The retrieval query is: <topic>: definitions, mechanisms, trade-offs, examples, and interview) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 355 Tm (misconceptions. The subject is filtered, but topic relevance is determined by ranking rather) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 341 Tm (than an exact topic metadata filter.) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 318 Tm (MCQs must contain four options, one correct answer equal to an option, and a revision area.) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 304 Tm (Short questions include a reference answer and revision area. The prompt asks for standalone) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 290 Tm (conceptual questions strictly within the selected topic and supported by retrieved facts.) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 267 Tm (The API saves MCQ answers and short-answer references in AssessmentQuestion.correct_answer.) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 253 Tm (Initial learner responses omit answer keys. Generated revision_area values are not saved with) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 239 Tm (questions in this route; grading generates revision guidance later.) Tj ET
+0.93 0.97 0.98 rg 48 142 499 74 re f
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 60 198 Tm (Failure behavior) Tj ET
+BT /F1 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 60 182 Tm (If retrieval or question generation fails, the API returns HTTP 502. It does not) Tj ET
+BT /F1 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 60 169 Tm (create a substitute question bank. Pydantic checks structure and counts, but it does) Tj ET
+BT /F1 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 60 156 Tm (not prove every generated statement is factually grounded.) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 125 Tm (Evidence: backend/app/services/assessment_service.py:17,70,84,128; backend/app/api/v1/assessments.py:25,100.) Tj ET
+BT /F1 8 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 31 Tm (Repository review: 09 September 2026  |  Paths are relative to project root) Tj ET
+BT /F2 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 532 31 Tm (7) Tj ET
+endstream
+endobj
+18 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 17 0 R >>
+endobj
+19 0 obj
+<< /Length 3975 >>
+stream
+BT /F2 9 Tf 0.0 0.37 0.43 rg 1 0 0 1 48 800 Tm (COREPREP AI  /  TECHNICAL WALKTHROUGH) Tj ET
+BT /F2 23 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 766 Tm (Task assessment: evaluate answers) Tj ET
+BT /F1 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 745 Tm (API: POST /api/v1/assessments/{assessment_id}/submit) Tj ET
+0.0 0.55 0.59 RG 1.5 w 48 732 m 547 732 l S
+0.94 0.97 0.99 rg 65 679 465 31 re f
+BT /F2 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 694 Tm (Load owned assessment + stored questions/keys + submitted answers) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 666 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 630 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 645 Tm (Return stored result if already submitted; otherwise retrieve topic top 5 again) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 617 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 581 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 596 Tm (Prompt = corpus + all questions, reference answers and user responses) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 568 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 532 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 547 Tm (One batched LLM evaluation, temperature 0.1 -> validate all question IDs) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 519 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 483 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 498 Tm (Server enforces MCQ correctness and short-answer correctness threshold) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 470 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 434 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 449 Tm (Score = rounded average marks x 100; pass at 70%; mark topic complete) Tj ET
+BT /F2 11 Tf 0.0 0.37 0.43 rg 1 0 0 1 292 421 Tm (v) Tj ET
+0.94 0.97 0.99 rg 65 385 465 31 re f
+BT /F1 9.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 77 400 Tm (Store attempt, answers, marks, explanations -> results and revision areas) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 369 Tm (MCQ correctness is determined by normalized selected text versus the stored answer; marks are) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 355 Tm (forced to 1 or 0. The LLM contributes an explanation. For short answers, the prompt asks for) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 341 Tm (semantic comparison with the reference and corpus, giving at least 0.5 for coverage of at) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 327 Tm (least half the essential concepts. Code sets is_correct = marks >= 0.5.) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 304 Tm (Evaluation retrieves again using the topic, not the learner answer as the search query. The) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 290 Tm (LLM sees the entire batch plus the shared retrieved context. The default batch timeout is 170) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 276 Tm (seconds, while the provider client has its own timeout \(default 45 seconds\).) Tj ET
+BT /F2 13 Tf 0.0 0.37 0.43 rg 1 0 0 1 48 246 Tm (If evaluation fails) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 223 Tm (Retrieval errors, timeouts, invalid responses, or missing question IDs trigger deterministic) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 209 Tm (fallback. MCQs use raw string equality in fallback. Short-answer marks use overlap of) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 195 Tm (normalized words longer than three characters with the stored reference; this is keyword) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 181 Tm (matching, not semantic embedding similarity.) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 158 Tm (Evidence: backend/app/services/assessment_service.py:194,235,284; backend/app/api/v1/assessments.py:185) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 146 Tm (onward. Repeated submissions return saved results without fresh RAG grading.) Tj ET
+BT /F1 8 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 31 Tm (Repository review: 09 September 2026  |  Paths are relative to project root) Tj ET
+BT /F2 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 532 31 Tm (8) Tj ET
+endstream
+endobj
+20 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 19 0 R >>
+endobj
+21 0 obj
+<< /Length 4729 >>
+stream
+BT /F2 9 Tf 0.0 0.37 0.43 rg 1 0 0 1 48 800 Tm (COREPREP AI  /  TECHNICAL WALKTHROUGH) Tj ET
+BT /F2 23 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 766 Tm (What to show your teacher) Tj ET
+BT /F1 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 745 Tm (A short demonstration sequence and accurate answers) Tj ET
+0.0 0.55 0.59 RG 1.5 w 48 732 m 547 732 l S
+BT /F2 13 Tf 0.0 0.37 0.43 rg 1 0 0 1 48 703 Tm (1. Show the knowledge, then the index) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 680 Tm (Open backend/data/dbms/curriculum.md and assessment_reference.md \(or the DSA files\). Explain) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 666 Tm (the difference between learning scope and factual assessment references. Then open) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 652 Tm (vector_db/meta.json and corpus_manifest.json to show the collection, 384-dimensional Cosine) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 638 Tm (configuration, and the recorded 448 chunks.) Tj ET
+BT /F2 13 Tf 0.0 0.37 0.43 rg 1 0 0 1 48 608 Tm (2. Show how a passage becomes searchable) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 585 Tm (In rag_service.py, show _load_chunks\(\), TextEmbedding\(\), _ensure_index\(\), and retrieve\(\).) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 571 Tm (Explain heading-aware character windows, 180-character overlap, document embeddings, stored) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 557 Tm (payload, query embeddings, subject filtering, and top-k results.) Tj ET
+BT /F2 13 Tf 0.0 0.37 0.43 rg 1 0 0 1 48 527 Tm (3. Trace the two product features) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 504 Tm (Show generate_roadmap\(\) and its CURATED CORPUS prompt. Then show AssessmentService._context\(\),) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 490 Tm (generate_questions\(\), and evaluate_answers\(\). Point out the shared retriever, the separate) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 476 Tm (prompts, validation, server-controlled MCQ scores, and the final pass threshold.) Tj ET
+BT /F2 13 Tf 0.0 0.37 0.43 rg 1 0 0 1 48 446 Tm (4. Confirm configuration before calling it a vector demo) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 423 Tm (For a vector demonstration, launch with RAG_BACKEND=vector set before Python imports the) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 409 Tm (service and use backend/ as the working directory \(or an absolute VECTOR_DB_PATH\). Restart) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 395 Tm (after changing configuration because backend selection is read on import and the service is) Tj ET
+BT /F1 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 381 Tm (cached. Vector startup needs working Python dependencies and access to the embedding model.) Tj ET
+0.93 0.97 0.98 rg 48 271 499 87 re f
+BT /F2 10 Tf 0.13 0.19 0.26 rg 1 0 0 1 60 340 Tm (Model identity: trust configuration, not response labels) Tj ET
+BT /F1 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 60 324 Tm (Roadmaps hard-code gemini-rag and assessments hard-code groq-rag in successful) Tj ET
+BT /F1 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 60 311 Tm (response metadata. Both actually call get_llm\(\), which supports Gemini and Ollama.) Tj ET
+BT /F1 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 60 298 Tm (GROQ_MODEL in the local .env is unused by this client. These labels are not reliable) Tj ET
+BT /F1 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 60 285 Tm (evidence of which provider ran.) Tj ET
+BT /F2 13 Tf 0.0 0.37 0.43 rg 1 0 0 1 48 247 Tm (Useful answers to likely questions) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 224 Tm (Why chunks? Focused passages fit the prompt and permit targeted retrieval. Why overlap? To retain context at) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 212 Tm (long-section boundaries. Why embeddings? To retrieve by semantic representation in vector mode. Why RAG? To) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 200 Tm (supply project-specific reference knowledge without retraining. Does RAG guarantee correctness? No;) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 188 Tm (grounding is prompted, while structural validation and application rules provide additional checks.) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 168 Tm (This PDF documents the existing implementation. It does not change application configuration or certify a) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 156 Tm (successful live vector/LLM run. All factual implementation references come from the local project files) Tj ET
+BT /F1 8.5 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 144 Tm (named throughout the document.) Tj ET
+BT /F1 8 Tf 0.13 0.19 0.26 rg 1 0 0 1 48 31 Tm (Repository review: 09 September 2026  |  Paths are relative to project root) Tj ET
+BT /F2 9 Tf 0.13 0.19 0.26 rg 1 0 0 1 532 31 Tm (9) Tj ET
+endstream
+endobj
+22 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 21 0 R >>
+endobj
+xref
+0 23
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000170 00000 n 
+0000000240 00000 n 
+0000000315 00000 n 
+0000004336 00000 n 
+0000004472 00000 n 
+0000008084 00000 n 
+0000008220 00000 n 
+0000012386 00000 n 
+0000012523 00000 n 
+0000016852 00000 n 
+0000016990 00000 n 
+0000021361 00000 n 
+0000021499 00000 n 
+0000026171 00000 n 
+0000026309 00000 n 
+0000030306 00000 n 
+0000030444 00000 n 
+0000034472 00000 n 
+0000034610 00000 n 
+0000039392 00000 n 
+trailer
+<< /Size 23 /Root 1 0 R >>
+startxref
+39530
+%%EOF
